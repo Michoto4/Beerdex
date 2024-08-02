@@ -1,38 +1,8 @@
+body {
+  background-color: #080710;
+}
+
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
   font-family: "Poppins", sans-serif;
   color: white;
-}
-
-:root {
-  /* im gonna use it later */
-  /* COLORS */
-  --primaryColor: #96ec24;
-  --secondaryColor: #242424;
-  --hoverColor: #6fff8e;
-  --bgColor: #080710;
-  /* FONT TYPOGRAPHY */
-  --biggestFontSize: 2.5rem;
-  --h1FontSize: 1.5rem;
-  --h2FontSize: 1.25rem;
-  --h3FontSize: 1rem;
-  --normalFontSize: .938rem;
-  --smallFontSize: .813rem;
-  --smallestFontSize: .75rem;
-}
-
-.tempButton {
-  font-size: var(--normalFontSize);
-  border-radius: 15px;
-  padding: 10px;
-  margin: 10px;
-  background-color: #242424;
-  border: none;
-  transition: 0.2s;
-}
-
-.tempButton:hover {
-  box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.767);
 }/*# sourceMappingURL=App.css.map */

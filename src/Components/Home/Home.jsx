@@ -1,15 +1,15 @@
 import React from "react";
-import './Dashboard.css';
+import './Home.module.css';
 import '../../App.css';
 
-function Dashboard(){
+function Home(){
 
     return(
         <div>
-            <h1>Dashboard Page</h1><br /><hr />
+            <h1>Home Page</h1><br /><hr />
             <a href="/"><button className="tempButton">LOG OUT</button></a>
         </div>
     )
 }
 
-export default Dashboard
+export default Home
