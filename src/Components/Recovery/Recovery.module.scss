@@ -1,6 +1,6 @@
 .form{
-    height: 530px;
-    width: 400px;
+    height: fit-content;
+    width: fit-content;
     background-color: rgba(255,255,255,0.13);
     position: absolute;
     transform: translate(-50%,-50%);
@@ -45,14 +45,8 @@
         font-size: 14px;
         font-weight: 300;
     }
-    a{
-        color: rgb(30, 114, 209);
-    }
-    p{
-        margin: 0px;
-    }
 }
-.loginButton{
+.resetButton{
     margin-top: 50px;
     margin-bottom: 20px;
     width: 100%;
@@ -65,20 +59,6 @@
     cursor: pointer;
     transition: 0.25s;
 }
-.registerButton{
-    width: 100%;
-    background-color: #080710;
-    color: #fff;
-    padding: 15px 0;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.25s;
-}
-.loginButton:hover{
+.resetButton:hover{
     background-color: #cccccc;
-}
-.registerButton:hover{
-    background-color: #080710dc;
 }
