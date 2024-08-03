@@ -29,7 +29,8 @@
   text-align: center;
 }
 .form label {
-  display: inline-block;
+  display: block;
+  margin-top: 30px;
   font-size: 16px;
   font-weight: 500;
 }
@@ -44,32 +45,10 @@
   font-size: 14px;
   font-weight: 300;
 }
-.form i {
-  display: inline-block;
-  margin-left: 5px;
-  cursor: pointer;
-}
-.form i[data-tooltip]::after {
-  content: attr(data-tooltip);
-  width: -moz-fit-content;
-  width: fit-content;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  background-color: white;
-  border-radius: 8px;
-  padding: 4px 8px;
-  color: rgb(10, 10, 10);
-  transform: scale(0);
-  transition: 0.2s ease-in-out;
-}
-.form i[data-tooltip]:hover::after {
-  transform: scale(0.8);
-}
 
 .resetButton {
-  margin-top: 20px;
-  margin-bottom: 40px;
+  margin-top: 50px;
+  margin-bottom: 20px;
   width: 100%;
   background-color: #ffffff;
   color: #080710;
@@ -83,4 +62,4 @@
 
 .resetButton:hover {
   background-color: #cccccc;
-}/*# sourceMappingURL=Recovery.module.css.map */
+}/*# sourceMappingURL=Reset.module.css.map */

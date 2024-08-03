@@ -7,9 +7,16 @@ export async function loginValidate(values){
     return errors;
 }
 
-// validate register page username passwords and E-Mail
+// validate register page username, passwords and E-Mail
 export async function registerValidate(values){
     const errors = registerVerify({}, values);
+
+    return errors;
+}
+
+// validate reset password page
+export async function resetValidate(values){
+    const errors = resetVerify({}, values);
 
     return errors;
 }
@@ -43,6 +50,22 @@ function registerVerify(error = {}, values){
         error.mail = toast.error('Invalid E-Mail!');
 
     }
+    if(!values.password){                                         // Password validation
+        error.password = toast.error('Password Required!');
+    }else if(values.password.includes(" ")){
+        error.password = toast.error(`Can't use empty space!`);
+
+    }else if(!values.passwordConfirm){                                  // Password confirm validation
+        error.passwordConfirm = toast.error('Confirm your Password!');
+    }else if(values.passwordConfirm !== values.password){
+        error.passwordConfirm = toast.error(`Password's doesn't match!`);
+
+    }
+    return error;
+}
+
+// validate reset password
+function resetVerify(error = {}, values){
     if(!values.password){                                         // Password validation
         error.password = toast.error('Password Required!');
     }else if(values.password.includes(" ")){

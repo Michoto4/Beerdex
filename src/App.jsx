@@ -3,6 +3,7 @@ import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
 import Recovery from './Components/Recovery/Recovery';
+import Reset from './Components/Reset/Reset';
 
 // import React react dom
 import{
@@ -17,16 +18,20 @@ const router = createBrowserRouter([
     element: <Login/>
   },
   {
-    path: '/recovery',
-    element: <Recovery/>
-  },
-  {
     path: '/register',
     element: <Register/>
   },
   {
     path: '/home',
     element: <Home/>
+  },
+  {
+    path: '/recovery',
+    element: <Recovery/>
+  },
+  {
+    path: '/reset',
+    element: <Reset/>
   }
 ]);
 
