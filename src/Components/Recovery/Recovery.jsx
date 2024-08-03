@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './Recovery.module.css';
+import { Link } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 
 

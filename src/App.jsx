@@ -1,34 +1,34 @@
-import './App.css'
-import Home from './Components/Home/Home'
-import Login from './Components/Login/Login'
-import Register from './Components/Register/Register'
-import Recovery from './Components/Recovery/Recovery'
+import './App.css';
+import Home from './Components/Home/Home';
+import Login from './Components/Login/Login';
+import Register from './Components/Register/Register';
+import Recovery from './Components/Recovery/Recovery';
 
 // import React react dom
 import{
   createBrowserRouter,
   RouterProvider
-} from 'react-router-dom'
+} from 'react-router-dom';
 
 // create a router
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <div><Login/></div>
-  },
-  {
-    path: '/register',
-    element: <div><Register/></div>
-  },
-  {
-    path: '/home',
-    element: <div><Home/></div>
+    element: <Login/>
   },
   {
     path: '/recovery',
-    element: <div><Recovery/></div>
+    element: <Recovery/>
+  },
+  {
+    path: '/register',
+    element: <Register/>
+  },
+  {
+    path: '/home',
+    element: <Home/>
   }
-])
+]);
 
 function App() {
 

@@ -34,7 +34,7 @@ function Login(){
                 <button className={styles.loginButton} type="submit">Log In</button>
                 {/* <Link to={'/home'}><button className={styles.loginButton} type="submit">Log In</button></Link> */}
                 <Link to={'/register'}><button className={styles.registerButton}>Register</button></Link>
-                <p>Forgot password? <a href="/recovery">Recover Now</a></p>
+                <p>Forgot password? <a href="/Recovery">Recover Now</a></p>
             </form>
         </div>
     )
