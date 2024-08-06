@@ -1,11 +1,15 @@
 import React from "react";
 import styles from './Login.module.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import { loginValidate } from "../../helper/validate";
+import { useAuthStore } from "../../store/store";
 
 function Login(){
+
+    const navigate = useNavigate();
+    const setUsername = useAuthStore(state => state.setUsername);
 
     const formik = useFormik({
         initialValues : {
@@ -16,7 +20,7 @@ function Login(){
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit : async values => {
-            console.log(values);
+            setUsername(values.username)                                                            // tutaj musisz dorobic jeszcze hasło ale to bedzie w tym filmiku ogarniesz to a tera register robisz
         }
     });
 

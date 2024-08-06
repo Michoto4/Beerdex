@@ -12,7 +12,8 @@ function Register(){
             username : '',
             mail : '',
             password : '',
-            passwordConfirm : ''
+            passwordConfirm : ''         // musisz jakos wymyslic zeby pozbyc sie tego bo nie powinienes wysylac password confirm do servera bo po chuj chyba ze to nie bedzie robic zadnego errora to wyjebane w sumie 
+            //                              a jak bedzie to chyba najprosciej destrukturyzacje i wyjeb w ten sposob passwordConfirm zanim wyslesz całe body
         },
         validate : registerValidate,
         validateOnBlur: false,
