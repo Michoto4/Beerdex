@@ -42,8 +42,8 @@ function Login(){
             <form className={styles.form} onSubmit={formik.handleSubmit}>
                 <h3>Beerdex</h3>
 
-                <label htmlFor="username">Username or E-mail</label>
-                <input {...formik.getFieldProps('username')} type="text" placeholder="Username or E-mail" id="username"></input>
+                <label htmlFor="username">Username</label>
+                <input {...formik.getFieldProps('username')} type="text" placeholder="Username" id="username"></input>
 
                 <label htmlFor="password">Password</label>
                 <input {...formik.getFieldProps('password')} type="password" placeholder="Password" id="password"></input>

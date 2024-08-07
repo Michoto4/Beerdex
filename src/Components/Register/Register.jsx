@@ -22,7 +22,7 @@ function Register(){
         validateOnChange: false,
         onSubmit : async values => {
             delete values.passwordConfirm;
-            console.log(values)
+            //console.log(values)
             let registerPromise = registerUser(values)
             toast.promise(registerPromise, {
                 loading: 'Creating...',
