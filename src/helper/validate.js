@@ -78,10 +78,10 @@ function passwordConfirmVerify(error = {}, values){
 
 // validate E-Mail
 function emailVerify(error = {}, values){
-    if(!values.mail){                                             // E-Mail validation
-        error.mail = toast.error('E-Mail Required!');
-    }else if(!values.mail.includes("@")){
-        error.mail = toast.error('Invalid E-Mail!');
+    if(!values.email){                                             // E-Mail validation
+        error.email = toast.error('E-Mail Required!');
+    }else if(!values.email.includes("@")){
+        error.email = toast.error('Invalid E-Mail!');
     }
     return error;
 }

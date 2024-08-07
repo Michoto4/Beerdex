@@ -1,10 +1,11 @@
 import React from "react";
 import styles from './Login.module.css';
 import { Link, useNavigate } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import { loginValidate } from "../../helper/validate";
 import { useAuthStore } from "../../store/store";
+import { loginUser } from "../../helper/helper";
 
 function Login(){
 
@@ -20,7 +21,18 @@ function Login(){
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit : async values => {
-            setUsername(values.username)                                                            // tutaj musisz dorobic jeszcze hasło ale to bedzie w tym filmiku ogarniesz to a tera register robisz
+            setUsername(values.username);                                                            
+            let loginPromise = loginUser({username: values.username, password: values.password});
+            toast.promise(loginPromise, {
+                loading: 'Logging in...',
+                success : 'Login Successfull!',
+                error : 'Invalid username or password.'
+            });
+            loginPromise.then(res => {
+                let {token} = res.data;
+                localStorage.setItem('token', token);
+                navigate('/home');
+            })
         }
     });
 

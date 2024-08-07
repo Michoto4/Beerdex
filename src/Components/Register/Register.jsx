@@ -1,25 +1,36 @@
 import React from "react";
 import styles from './Register.module.css';
-import { Link } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import { registerValidate } from "../../helper/validate";
+import { registerUser } from "../../helper/helper";
 
 function Register(){
+
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues : {
             username : '',
-            mail : '',
+            email : '',
             password : '',
-            passwordConfirm : ''         // musisz jakos wymyslic zeby pozbyc sie tego bo nie powinienes wysylac password confirm do servera bo po chuj chyba ze to nie bedzie robic zadnego errora to wyjebane w sumie 
-            //                              a jak bedzie to chyba najprosciej destrukturyzacje i wyjeb w ten sposob passwordConfirm zanim wyslesz całe body
+            passwordConfirm : ''
         },
         validate : registerValidate,
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit : async values => {
-            console.log(values);
+            delete values.passwordConfirm;
+            console.log(values)
+            let registerPromise = registerUser(values)
+            toast.promise(registerPromise, {
+                loading: 'Creating...',
+                success : 'Register Successfull!',
+                error : 'Could not Register.'
+            });
+
+            registerPromise.then(function(){navigate('/')});
         }
     });
 
@@ -32,8 +43,8 @@ function Register(){
                 <label htmlFor="username">Username</label>
                 <input {...formik.getFieldProps('username')} type="text" placeholder="Username" id="username"></input>
 
-                <label htmlFor="mail">E-Mail</label>
-                <input {...formik.getFieldProps('mail')} type="email" placeholder="E-mail" id="mail"></input>
+                <label htmlFor="email">E-Mail</label>
+                <input {...formik.getFieldProps('email')} type="text" placeholder="E-mail" id="email"></input>
 
                 <label htmlFor="password">Password</label>
                 <input {...formik.getFieldProps('password')} type="password" placeholder="Password" id="password"></input>
@@ -41,7 +52,6 @@ function Register(){
                 <label htmlFor="passwordConfirm">Confirm Password</label>
                 <input {...formik.getFieldProps('passwordConfirm')} type="password" placeholder="Confirm Password" id="passwordConfirm"></input>
                 <button className={styles.registerButton} type="submit">Register</button>
-                {/* <Link to={'/home'}><button className={styles.registerButton}>Register</button></Link> */}
                 <p>Already have an account? <a href="/">Log In</a></p>
             </form>
         </div>
