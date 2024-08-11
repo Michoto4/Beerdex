@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import ENV from '../config';
 
-axios.defaults.baseURL = 'http://localhost:8080'; // http://130.162.228.126:8080
+axios.defaults.baseURL = ENV.BASE_URL;
 
 
 /** custom hook ------- PRZECZYTAJ TO UWAZNIE ------- (just some notes for myself)

@@ -1,6 +1,7 @@
 import axios from "axios";
+import ENV from '../config';
 
-axios.defaults.baseURL = 'http://localhost:8080'; // http://130.162.228.126:8080
+axios.defaults.baseURL = ENV.BASE_URL;
 
 
 /** make API requests */
@@ -30,14 +31,13 @@ export async function registerUser(credentials){
     try {
         const {data: {msg}, status} = await axios.post(`/api/register`, credentials)
 
-        //let {username, email} = credentials;
+        let {username, email} = credentials;
 
-        //let html = `<h1>Welcome to Beerdex, ${username}</h1></br><p>Your account has been successfully created!</p></br><p>We hope you'll have a wonderfull experience using beerdex! ❤</p>`;
+        let html = `<h1>Welcome to Beerdex, ${username}</h1></br><p>Your account has been successfully created!</p></br><p>We hope you'll have a wonderfull experience using beerdex! ❤</p>`;
 
-        // if(status === 201){
-        //     // await axios.get('/api/deleteRecipients'); // just ignore that, i'll remove it later                                            
-        //     await axios.post('/api/sendMail', {username, userEmail: email, subject: msg, html});                             // for now im commenting everything here out because i can't send emails due to mailersend problem
-        // } 
+        if(status === 201){                                           
+            await axios.post('/api/sendMail', {username, userEmail: email, subject: msg, html});
+        } 
         return Promise.resolve(msg);
     } catch (error) {
         return Promise.reject({error})
