@@ -47,7 +47,8 @@ export default function useFetch(query){
             } catch (error) {
                 setData(prev => ({...prev, isLoading: false, serverError: error}));
             }
-        }
+        };
+        fetchData()
 
     }, [query]);
 
