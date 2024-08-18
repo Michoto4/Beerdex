@@ -1,12 +1,42 @@
-# Beerdex - Your beer pokedex!
 
-Beerdex is literally a pokedex but instead of pokemons it stores beers.
-so when you go out with your friends and drink a new beer you can add it there exactly as if you catched a new pokemon and it adds to your pokedex where you can see a photo of it and all other info related to that pokemon
-(obviously its not completed yet)
+# Beerdex | Your Beer Pokedex!
+
+#### ENG:
+
+Beerdex is literally what the name suggests, it's a Pokedex with beers instead of Pokemons.
+You will be able to add there all the beers you drink as well as a photo of them, rating, description and maybe even more. Just like in a real Pokedex.
+
+#### PL:
+
+Beerdex to tak jak nazwa wskazuje, Pokedex ale zamiast Pokemonów są piwa.
+Będziesz mógł tu dodać wszystkie piwa jakie pijesz razem z ich zdjęciem, oceną, opisem i może jeszcze więcej. Dokładnie tak jak w prawdziwym Pokedexie
+## Example 
+
+An example of my idea for this app:
+
+![Imgur](https://i.imgur.com/1kTTba5.png)
 
 
-# Beerdex - Twój piwny pokedex!
+## FAQ
 
-Beerdex to dosłownie pokedex tylko zamiast pokemonów zapisuje sie w nim piwa.
-Więc jesli kiedyś wyjdziesz z ziomkami na jakieś nowe piwo, możesz je zapisać tutaj dokładnie tak, jak gdybyś złapał nowego pokemona i wtedy on się zapisuje w pokedexie gdzie możesz zobaczyć jego zdjęcie lub inne informacje.
-(oczywiście jeszcze tego nie skończyłem)
+#### Is it done already?
+
+Obviously not, right now i completed the login/register system. You can see the progress at [beerdex.pl](https://beerdex.pl/)
+
+#### When it will be finished?
+
+I have no idea, im working on it when i have free time and willingness, but i hope i'll finish it as soon as possible
+
+#### Where is the backend code?
+
+I'm not uploading backend code, what you can find here is only the frontend.
+
+#### Where are you from?
+
+I'm from Poland, that's why some of the text you see here isn't in english and also that's why my english might not sound very correct to you XD
+
+
+## Authors
+
+- [@Michoto](https://www.github.com/Michoto4)
+
