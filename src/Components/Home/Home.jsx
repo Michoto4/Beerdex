@@ -8,14 +8,20 @@ import convertToBase64 from '../../helper/convert';
 import useFetch from '../../hooks/fetch.hook';
 import { updateUser } from "../../helper/helper";
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from "../../store/store";
 
 function Home(){
 
     const [file, setFile] = useState();
-    const { username } = useAuthStore(state => state.auth)
-    const [{ isLoading, apiData, serverError }] = useFetch(`/user/${username}`)
+    const [{ isLoading, apiData, serverError }] = useFetch()
     const navigate = useNavigate()
+
+    // check if user is logged in (by checking if there is a jwt token saved in your browser's local storage)
+    // if isn't then block access by navigating to '/' page
+    let checkToken = localStorage.getItem('token');
+    if(!checkToken){
+        navigate('/');
+    }
+
 
     const formik = useFormik({
         initialValues : {
@@ -49,23 +55,6 @@ function Home(){
 
 
     return(
-        // <div className={styles.container}>
-        //     <h1>Home Page</h1><br />
-        //     <h3>Welcome to Beerdex, <b>{username}</b></h3><br /><hr />
-        //         <div className={styles.profileContainer}>
-        //             <label htmlFor="profile">
-        //                 <img src={file || avatar} className={styles.profilePhoto} alt="avatar" />
-        //             </label>
-                    
-        //             <input onChange={onUpload} type="file" id='profile' name='profile' />
-        //         </div>
-        //       <button className={styles.logOutButton} onClick={userLogout}>Log Out</button>
-        // </div>
-
-
-        
-
-
         <div className={styles.container}>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
             <form className={styles.form} onSubmit={formik.handleSubmit}>

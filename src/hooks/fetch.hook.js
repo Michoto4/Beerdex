@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import ENV from '../config';
+import { getUsername } from "../helper/helper";
 
 axios.defaults.baseURL = ENV.BASE_URL;
 
@@ -30,13 +31,12 @@ export default function useFetch(query){
 
     useEffect(() => {
 
-        if(!query) return;
-
         const fetchData = async () => {
             try {
                 setData(prev => ({...prev, isLoading: true}));
 
-                const {data, status} = await axios.get(`/api/${query}`);
+                const {username} = await getUsername();
+                const {data, status} = !query ? await axios.get(`api/user/${username}`) : await axios.get(`/api/${query}`);
 
                 if(status === 201){
                     setData(prev => ({...prev, isLoading: false}));
