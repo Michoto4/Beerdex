@@ -22,6 +22,10 @@
   outline: none;
   border: none;
 }
+.form a {
+  color: rgb(30, 114, 209);
+  cursor: pointer;
+}
 .form h3 {
   font-size: 32px;
   font-weight: 500;
@@ -83,4 +87,22 @@
 
 .resetButton:hover {
   background-color: #cccccc;
+}
+
+.resend {
+  margin: 5px;
+}
+
+.verifyButton {
+  margin-top: 20px;
+  margin-bottom: 5px;
+  width: 100%;
+  background-color: #ffffff;
+  color: #080710;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.25s;
 }/*# sourceMappingURL=Recovery.module.css.map */

@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from './Reset.module.css';
-import { Link } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import { useFormik } from "formik";
 import { resetValidate } from "../../helper/validate";
+import { resetPassword } from "../../helper/helper";
+import { useAuthStore } from "../../store/store";
+import { useNavigate } from "react-router-dom";
 
+function Reset(){
+    const { username } = useAuthStore(state => state.auth)
+    const navigate = useNavigate();
 
-function Recovery(){
+    useEffect(() => {
+        if(!username) return navigate('/');
+    });
 
     const formik = useFormik({
         initialValues : {
@@ -17,7 +24,13 @@ function Recovery(){
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit : async values => {
-            console.log(values);
+            let resetPromise = resetPassword({ username, password: values.password })
+            toast.promise(resetPromise, {
+                loading: 'Updating...',
+                success : 'Reset Successfull.',
+                error : 'Could not reset.'
+            });
+            resetPromise.then(function(){navigate('/login')});
         }
     });
 
@@ -38,4 +51,4 @@ function Recovery(){
     )
 }
 
-export default Recovery
+export default Reset

@@ -5,6 +5,7 @@ import Register from './Components/Register/Register';
 import Recovery from './Components/Recovery/Recovery';
 import Reset from './Components/Reset/Reset';
 import Intersection from './Components/Intersection';
+import RecoveryOTP from './Components/Recovery/RecoveryOTP';
 
 // import React react dom
 import{
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: '/recovery',
     element: <Recovery/>
+  },
+  {
+    path: '/recoveryOTP',
+    element: <RecoveryOTP/>
   },
   {
     path: '/reset',

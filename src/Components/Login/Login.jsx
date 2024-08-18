@@ -4,13 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import { loginValidate } from "../../helper/validate";
-import { useAuthStore } from "../../store/store";
 import { loginUser } from "../../helper/helper";
 
 function Login(){
 
     const navigate = useNavigate();
-    const setUsername = useAuthStore(state => state.setUsername);
 
     const formik = useFormik({
         initialValues : {
@@ -20,8 +18,7 @@ function Login(){
         validate : loginValidate,
         validateOnBlur: false,
         validateOnChange: false,
-        onSubmit : async values => {
-            setUsername(values.username);                                                            
+        onSubmit : async values => {                                                           
             let loginPromise = loginUser({username: values.username, password: values.password});
             toast.promise(loginPromise, {
                 loading: 'Logging in...',
