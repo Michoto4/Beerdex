@@ -4,6 +4,7 @@ import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
 import Recovery from './Components/Recovery/Recovery';
 import Reset from './Components/Reset/Reset';
+import Intersection from './Components/Intersection';
 
 // import React react dom
 import{
@@ -15,6 +16,10 @@ import{
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <Intersection/>
+  },
+  {
+    path: '/login',
     element: <Login/>
   },
   {

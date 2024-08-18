@@ -6,24 +6,12 @@ import { getUsername } from "../helper/helper";
 axios.defaults.baseURL = ENV.BASE_URL;
 
 
-/** custom hook ------- PRZECZYTAJ TO UWAZNIE ------- (just some notes for myself)
+/** custom hook (just some notes for myself)
 
-ta funkcja robi tak
-wysyłasz jej nazwe uzytkownika
-i ona po prostu robi get request na /api/user/NAZWA-UZYTKOWNIKA
-i to zrwaca informacje takie jak: email, username, /path/to/profile/photo wiesz ocb i do tego _id
-tylko ze dla mnie to jest useless bo ja w sumie tego nie potrzebuje (chyba) 
-a on to wszystko napisał bo u niego jest mozliwosc dodania imienia nazwiska itp itd
-i to trafia do bazy danych a potem tą funkcją mozesz te dane sfetchowac np jak on po to zeby wyswietlic Hello {twoje imie} na stronie do logowania po podaniu nicku bo on ma odzdielnie nick a potem haslo
+to po prostu wysyła geta na /api/user/username i to całe query to wlasnie "/user/username" wiec jak wyslesz do tego hooka nazwe uzytkownika to ta funkcja go sfetchuje i zreturnuje dane tego uzytkownika
+ale podstawowo ta funkcja bierze dane z twojego jwt tokena i wyciąga z niego username i potem fetchuje te informacje no tak normalnie po prostu tylko ze nick bierze z twojego tokena nie musisz nic tutaj przesyłać temu hookowi
 
-wiec u niego to dziala tak
-podajesz nick na stronie username i on trafia do central store i przenosi cie dalej na strone password i na tej stronie fetchuje ten nick czyli bierze z central store nick ktory ty podales
-i wysyła go na useFetch('/user/${username}') no i to potem leci przez tego jebanego hooka czyli w (query) jest zapisane to całe '/user/${username}' czyli na przykład: /user/example
-no i wtedy tutaj jest jakies duzo dziwnych gówien chuj wie po co no ale ok ostatecznie co sie dzieje to get requestt na /api/query a query = user/example na przykład czyli ostatecznie leci request na /api/user/example który zwraca te dane co wyzej juz pisałem
-no i w ten sposob on pobiera dane o uzytkowniku konkretnie jego imie i potem wyswietla na ekranie dlatego w jego h1 text to Hello {apiData.firstName} bo w apiData zapisuje się to co zwraca ten get request a to co zwraca to w jego przypadku miedzy innymi firstName
-
-czy ja moge do czegos tego uzyc? chyba nie bynajmniej narazie nie ale nie usuwam bo moze sie przyda
-a napisalem to po to zeby pamietac na przyszlosc co tu sie odjaniepawla bo chlop zamiast zwyklego geta zrobic to kurwa pisze jakies chuje muje dzikie węże XD
+no ale w skrócie to po prostu fetchuje informacje o uzytkowniku którego nick podasz dla tego hooka
 
 */
 export default function useFetch(query){
@@ -35,7 +23,7 @@ export default function useFetch(query){
             try {
                 setData(prev => ({...prev, isLoading: true}));
 
-                const {username} = await getUsername();
+                const {username} = !query ? await getUsername() : '';
                 const {data, status} = !query ? await axios.get(`api/user/${username}`) : await axios.get(`/api/${query}`);
 
                 if(status === 201){

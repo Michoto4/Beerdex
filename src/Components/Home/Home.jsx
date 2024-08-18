@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from './Home.module.css';
 import '../../App.css';
 import avatar from '../../assets/default.jpg';
@@ -19,7 +19,9 @@ function Home(){
     // if isn't then block access by navigating to '/' page
     let checkToken = localStorage.getItem('token');
     if(!checkToken){
-        navigate('/');
+        useEffect(() => {
+            navigate('/');
+        });
     }
 
 
