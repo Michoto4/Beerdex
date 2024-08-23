@@ -14,7 +14,7 @@ Będziesz mógł tu dodać wszystkie piwa jakie pijesz razem z ich zdjęciem, oc
 
 An example of my idea for this app:
 
-![Imgur](https://i.imgur.com/1kTTba5.png)
+![Imgur](https://i.imgur.com/xztokRX.png)
 
 
 ## FAQ
