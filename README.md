@@ -31,10 +31,6 @@ I have no idea, im working on it when i have free time and willingness, but i ho
 
 I'm not uploading backend code, what you can find here is only the frontend.
 
-#### Where are you from?
-
-I'm from Poland, that's why some of the text you see here isn't in english and also that's why my english might not sound very correct to you XD
-
 
 ## Authors
 
