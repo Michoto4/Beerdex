@@ -21,11 +21,11 @@ An example of my idea for this app:
 
 #### Is it done already?
 
-Obviously not, right now i completed the login/register system. You can see the progress at [beerdex.pl](https://beerdex.pl/)
+Obviously not, currently I'm working on the ui. You can see the progress at [beerdex.pl](https://beerdex.pl/)
 
 #### When it will be finished?
 
-I have no idea, im working on it when i have free time and willingness, but i hope i'll finish it as soon as possible
+I have no idea, im working on it when i have free time and willingness, but i hope i'll finish it as soon as possible.
 
 #### Where is the backend code?
 
