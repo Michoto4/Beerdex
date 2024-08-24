@@ -104,3 +104,17 @@
     cursor: pointer;
     transition: 0.25s;
 }
+@media (max-width: 800px) {
+    .form{
+        width: 400px;
+        height: 300px;
+        margin: 0;
+    }
+}
+@media (max-width: 490px) {
+    .form{
+        width: 300px;
+        height: 300px;
+        margin: 0;
+    }
+}

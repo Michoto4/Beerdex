@@ -82,3 +82,19 @@
 .registerButton:hover{
     background-color: #080710dc;
 }
+
+
+@media (max-width: 550px) {
+    .form{
+        width: 80%;
+        height: 70%;
+        margin: 0;
+    }
+}
+@media (max-width: 450px) {
+    .form{
+        width: 70%;
+        height: 60%;
+        margin: 0;
+    }
+}
