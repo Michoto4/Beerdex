@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from './Home.module.css';
 import toast, { Toaster } from 'react-hot-toast';
 import avatar from '../../assets/default.jpg';
-import beerDefault from '../../assets/beerDefault.jpg';
 import BeerCard from './BeerCard.jsx';
+import BeerPopup from "./BeerPopup.jsx";
 
 // import FontAwesome icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 function Home() {
+
+    const [buttonPopup, setButtonPopup] = useState(false);
+
   return (
         <div className={styles.container}>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
@@ -21,8 +24,6 @@ function Home() {
                         <label htmlFor="profile">
                             <img src={avatar} alt="avatar" />
                         </label>
-                        
-                        <input type="file" id='profile' name='profile' />
                     </div>
                 </div>
                 <hr />
@@ -34,8 +35,9 @@ function Home() {
                     <BeerCard></BeerCard>
                     <BeerCard></BeerCard>
                     <BeerCard></BeerCard>
-                    <BeerCard></BeerCard>
                 </div>
+                <button type="button" className={styles.addBeer} onClick={() => setButtonPopup(true)}><FontAwesomeIcon icon={faPlus} /></button>
+                <BeerPopup trigger={buttonPopup} setTrigger={setButtonPopup}></BeerPopup>
             </form>
         </div>
   )

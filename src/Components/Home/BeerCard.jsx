@@ -9,8 +9,6 @@ function BeerCard() {
             <label htmlFor="beerImage">
                 <img src={beerDefault} alt="beerImage" />
             </label>
-            
-            <input type="file" id='beerImage' name='beerImage' />
         </div>
         <div className={styles.middleContainer}>
             <h2>Example Beer Name</h2>
