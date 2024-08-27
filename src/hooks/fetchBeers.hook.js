@@ -8,11 +8,11 @@ axios.defaults.baseURL = ENV.BASE_URL;
 
 /** custom hook (just some notes for myself)
 
-useFetch() to samo wyciaga z tokena twoj username a potem robi geta zeby wziac twoje info z bazy danych a jesli dasz tu query czyli cokolwiek innego co bedzie po /api/ to wtedy zrobi geta na to co podasz i tyle cala filozofia
+to samo co fetch hook ale do piw czyli fetchuje piwa z bazy danych i dajesz tu nick tylko i to robi geta na /api/getBeers/username
 
 */
-export default function useFetch(query){
-    const [getData, setData] = useState({isLoading: false, apiData: undefined, status: null, serverError: null});
+export default function fetchBeers(query){
+    const [getData, setData] = useState({isLoading: false, beerData: undefined, status: null, serverError: null});
 
     useEffect(() => {
 
@@ -20,12 +20,12 @@ export default function useFetch(query){
             try {
                 setData(prev => ({...prev, isLoading: true}));
 
-                const {username} = !query ? await getUsername() : '';
-                const {data, status} = !query ? await axios.get(`api/user/${username}`) : await axios.get(`/api/${query}`);
+                const {username} = await getUsername();
+                const {data, status} = await axios.get(`api/getBeers/${username}`);
 
                 if(status === 201){
                     setData(prev => ({...prev, isLoading: false}));
-                    setData(prev => ({...prev, apiData: data, status: status}));
+                    setData(prev => ({...prev, beerData: data, status: status}));
                 }
                 setData(prev => ({...prev, isLoading: false}));
 

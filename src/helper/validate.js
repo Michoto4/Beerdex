@@ -49,6 +49,18 @@ export async function resetValidate(values){
 }
 
 
+// -------- validate add beer ----------
+function addBeerVerify(error = {}, values){
+    beerVerify(error = {}, values);
+    return error;
+}
+export async function addBeerValidate(values){
+    const errors = addBeerVerify({}, values);
+
+    return errors;
+}
+
+
 
 // ************************ \\
 // **validation functions** \\
@@ -92,6 +104,14 @@ function usernameVerify(error = {}, values){
         error.username = toast.error('Username Required!');
     }else if(values.username.includes(" ")){
         error.username = toast.error(`Can't use empty space!`);
+    }
+    return error;
+}
+
+// validate add beer
+function beerVerify(error = {}, values){
+    if(values.beerRating > 10){                                         // Password validation
+        error.password = toast.error('Maximum rating is 10!');
     }
     return error;
 }

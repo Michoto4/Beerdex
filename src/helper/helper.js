@@ -122,3 +122,13 @@ export async function resetPassword({username, password}){
         return Promise.reject({error});
     }
 }
+
+/** create a new beer */
+export async function addBeer(beerProperties){
+    try {
+        const {data: {msg}, status} = await axios.post(`/api/createBeer`, beerProperties);
+        return Promise.resolve({msg: msg, status: status});
+    } catch (error) {
+        return Promise.reject({error})
+    }
+}
