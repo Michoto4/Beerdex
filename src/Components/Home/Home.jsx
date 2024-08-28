@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from './Home.module.css';
 import toast, { Toaster } from 'react-hot-toast';
 import convertToBase64 from '../../helper/convert';
