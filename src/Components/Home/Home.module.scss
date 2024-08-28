@@ -220,9 +220,6 @@
                 flex-wrap: wrap;
                 justify-content: space-between;
                 
-                label{
-
-                }
                 input{
                     background-color: gray;
                     border: none;
@@ -510,7 +507,7 @@
             }            
         }
         .appContainer{
-            height: 520px;
+            height: 500px;
             .beerContainer{
                 height: 100px;
                 .beerImage{

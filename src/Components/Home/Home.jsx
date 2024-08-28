@@ -41,6 +41,14 @@ function Home() {
         navigate('/')
     }
 
+    // check if user is logged in (by checking if there is a jwt token saved in your browser's local storage)
+    // if isn't then block access by navigating to '/' page
+    let checkToken = localStorage.getItem('token');
+    if(!checkToken){
+        useEffect(() => {
+            navigate('/');
+        });
+    }
 
   return (
         <div className={styles.container}>
