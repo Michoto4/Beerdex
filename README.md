@@ -13,8 +13,6 @@ Możesz tu dodać wszystkie piwa jakie pijesz razem z ich zdjęciem, oceną i op
 
 ## Screenshots 
 
-An example of my idea for this app:
-
 ![Imgur](https://i.imgur.com/wM7g7LJ.png)
 ![Imgur](https://i.imgur.com/oJAyc1a.png)
 
