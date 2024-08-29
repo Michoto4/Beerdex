@@ -6,8 +6,12 @@ import { resetValidate } from "../../helper/validate";
 import { resetPassword } from "../../helper/helper";
 import { useAuthStore } from "../../store/store";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import '../../translation/i18n';
+import LanguageSelector from "../LanguageSelector/LanguageSelector";
 
 function Reset(){
+    const {t} = useTranslation();
     const { username } = useAuthStore(state => state.auth)
     const navigate = useNavigate();
 
@@ -26,9 +30,9 @@ function Reset(){
         onSubmit : async values => {
             let resetPromise = resetPassword({ username, password: values.password })
             toast.promise(resetPromise, {
-                loading: 'Updating...',
-                success : 'Reset Successfull.',
-                error : 'Could not reset.'
+                loading: t('toastLoadingReset'),
+                success : t('toastSuccessReset'),
+                error : t('toastErrorReset')
             });
             resetPromise.then(function(){navigate('/login')});
         }
@@ -37,15 +41,16 @@ function Reset(){
     return(
         <div className={styles.container}>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
+            <LanguageSelector></LanguageSelector>
             <form className={styles.form} onSubmit={formik.handleSubmit}>
-                <h3>Reset Password</h3>
+                <h3>{t('resetPassword')}</h3>
 
-                <label htmlFor="password">Password</label>
-                <input {...formik.getFieldProps('password')} type="password" placeholder="Password" id="password"></input>
+                <label htmlFor="password">{t('newPassword')}</label>
+                <input {...formik.getFieldProps('password')} type="password" placeholder={t('newPassword')} id="password"></input>
 
-                <label htmlFor="passwordConfirm">Confirm Password</label>
-                <input {...formik.getFieldProps('passwordConfirm')} type="password" placeholder="Confirm Password" id="passwordConfirm"></input>
-                <button className={styles.resetButton} type="submit">Reset Password</button>
+                <label htmlFor="passwordConfirm">{t('confirmNewPassword')}</label>
+                <input {...formik.getFieldProps('passwordConfirm')} type="password" placeholder={t('confirmNewPassword')} id="passwordConfirm"></input>
+                <button className={styles.resetButton} type="submit">{t('resetPassword')}</button>
             </form>
         </div>
     )

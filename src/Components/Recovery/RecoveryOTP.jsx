@@ -6,10 +6,13 @@ import { useAuthStore } from "../../store/store";
 import { generateOTP } from "../../helper/helper";
 import { verifyOTP } from "../../helper/helper";
 import { useNavigate } from 'react-router-dom';
-
+import { useTranslation } from "react-i18next";
+import '../../translation/i18n';
+import LanguageSelector from "../LanguageSelector/LanguageSelector";
 
 
 function RecoveryOTP(){
+    const {t} = useTranslation();
     const { username } = useAuthStore(state => state.auth);
     useEffect(() => {
         if(!username) return navigate('/recovery');
@@ -22,9 +25,9 @@ function RecoveryOTP(){
         onSubmit : async values => {
             let verifyPromise = verifyOTP({username: username, code: values.OTP})
             toast.promise(verifyPromise, {
-                loading: 'Verifying...',
-                success : 'Verify Successfull.',
-                error : 'Invalid code!'
+                loading: t('toastLoadingVerify'),
+                success : t('toastSuccessVerify'),
+                error : t('toastErrorVerify')
             });
             verifyPromise.then(function(){navigate('/reset')})
         }
@@ -33,22 +36,23 @@ function RecoveryOTP(){
     function resend(){
         let generateOtpPromise = generateOTP(username);
         toast.promise(generateOtpPromise, {
-            loading: 'Sending...',
-            success : 'Email Sent',
-            error : 'Invalid username.'
+            loading: t('toastLoadingEmail'),
+            success : t('toastSuccessEmail'),
+            error : t('toastErrorEmail')
         });
     }
 
     return(
         <div className={styles.container}>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
+            <LanguageSelector></LanguageSelector>
             <form className={styles.form} onSubmit={formik.handleSubmit}>
-                <h3>Password Recovery</h3>
+                <h3>{t('passwordRecovery')}</h3>
 
-                <label htmlFor="OTP">Verify Code</label>
-                <input {...formik.getFieldProps('OTP')} type="text" placeholder="Enter your Code" id="OTP"></input>
-                <button className={styles.verifyButton} type="submit" >Verify</button>
-                <p className={styles.resend}>Didn't recive email? <a onClick={resend}>Resend</a></p>
+                <label htmlFor="OTP">{t('verifyCode')}</label>
+                <input {...formik.getFieldProps('OTP')} type="text" placeholder={t('enterVerifyCode')} id="OTP"></input>
+                <button className={styles.verifyButton} type="submit" >{t('verify')}</button>
+                <p className={styles.resend}>{t('didntReceive')} <a onClick={resend}>{t('resend')}</a></p>
             </form>
         </div>
     )

@@ -9,16 +9,19 @@ import fetchBeers from "../../hooks/fetchBeers.hook.js";
 import avatar from '../../assets/default.jpg';
 import BeerCard from './BeerCard.jsx';
 import BeerPopup from "./BeerPopup.jsx";
+import { useTranslation } from "react-i18next";
+import '../../translation/i18n';
+import LanguageSelector from "../LanguageSelector/LanguageSelector";
 
 // import FontAwesome icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 function Home() {
+    const {t} = useTranslation();
     const [file, setFile] = useState(); // set uploaded avatar to 'file'
     const [{ isLoading, apiData, serverError }] = useFetch() // fetch user data from database
     const [{ beerData }] = fetchBeers()
-    console.log(beerData)
     const navigate = useNavigate()
     const [buttonPopup, setButtonPopup] = useState(false);
 
@@ -29,9 +32,9 @@ function Home() {
         let values = {profile: base64 || ''}
         let updatePromise = updateUser(values)
         toast.promise(updatePromise, {
-            loading: 'Updating...',
-            success : 'Update Successfull!',
-            error : 'Could not update your profile.'
+            loading: t('toastLoadingUpdate'),
+            success : t('toastSuccessUpdate'),
+            error : t('toastErrorUpdate')
         })
     }
 
@@ -43,21 +46,22 @@ function Home() {
 
     // check if user is logged in (by checking if there is a jwt token saved in your browser's local storage)
     // if isn't then block access by navigating to '/' page
-    let checkToken = localStorage.getItem('token');
-    if(!checkToken){
-        useEffect(() => {
-            navigate('/');
-        });
-    }
+    // let checkToken = localStorage.getItem('token');
+    // if(!checkToken){
+    //     useEffect(() => {
+    //         navigate('/');
+    //     });
+    // }
 
   return (
         <div className={styles.container}>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
+            <LanguageSelector></LanguageSelector>
             <form className={styles.form}>
                 <div className={styles.topBar}>
-                    <h2>Welcome to Beerdex, <b>{apiData?.username || 'Unknown'}</b></h2>
+                    <h2>{t('welcome')} <b>{apiData?.username || t('unknown')}</b></h2>
                     <div className={styles.profileContainer}>
-                        <button type="button" onClick={userLogout}>LOG OUT</button>
+                        <button type="button" onClick={userLogout}>{t('logout')}</button>
                         <label htmlFor="profile">
                             <img src={ file || apiData?.profile || avatar} alt="avatar" />
                         </label>
@@ -65,7 +69,7 @@ function Home() {
                     </div>
                 </div>
                 <hr />
-                <input className={styles.beerBrowseInput} type="text" placeholder="Search for a Beer" />
+                <input className={styles.beerBrowseInput} type="text" placeholder={t('searchBeer')} />
                 <div className={styles.appContainer}>
                     {beerData?.map((beer) => (
                         <BeerCard beerName={beer.beerName} beerVariant={beer.beerVariant} beerDescription={beer.beerDescription} beerRating={beer.beerRating} beerPhoto={beer.beerPhoto} />

@@ -5,4 +5,27 @@ body {
 * {
   font-family: "Poppins", sans-serif;
   color: white;
+}
+
+.btn-container button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  margin: 5px 10px;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+.btn-container button:hover {
+  border-color: #646cff;
+}
+.btn-container button:focus,
+.btn-container button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+.btn-container button.selected {
+  background-color: #646cff;
 }/*# sourceMappingURL=App.css.map */

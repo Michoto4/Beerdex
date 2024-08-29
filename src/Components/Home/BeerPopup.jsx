@@ -9,13 +9,15 @@ import addBeerDefault from '../../assets/addBeerDefault.png'
 import convertToBase64 from '../../helper/convert';
 import { addBeer } from "../../helper/helper";
 import { addBeerValidate } from "../../helper/validate";
+import { useTranslation } from "react-i18next";
+import '../../translation/i18n';
 
 // import fontawesome icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 function BeerPopup(props) {
-
+    const { t } = useTranslation();
     const [file, setFile] = useState();
     const [{ isLoading, apiData, serverError }] = useFetch()
 
@@ -36,9 +38,9 @@ function BeerPopup(props) {
             values = await Object.assign(values, {beerOwner: apiData?.username || ''});
             let addBeerPromise = addBeer(values);
             const response = await toast.promise(addBeerPromise, {
-                loading: 'Creating...',
-                success : 'Beer Created Successfully!',
-                error : 'Could not create a beer.'
+                loading: t('toastLoadingBeer'),
+                success : t('toastSuccessBeer'),
+                error : t('toastErrorBeer')
             });
             if(response.status === 201){
                 props.setTrigger(false);
@@ -58,26 +60,26 @@ function BeerPopup(props) {
     <div className={styles.popupBackground} >
         <div className={styles.popupContainer} onSubmit={(ev) => ev.target.reset()}>
             <div className={styles.topPart}>
-                <h2>Add a Beer</h2>
+                <h2>{t('addBeer')}</h2>
                 <button className={styles.closePopup} type='button' onClick={() => props.setTrigger(false)}><FontAwesomeIcon icon={faPlus} /></button>
             </div>
             <hr />
             <div className={styles.middlePart}>
                 {/* BEER NAME */}
                 <div className={styles.beerNameContainer}>
-                    <label htmlFor="beerName">Beer Name</label><br />
+                    <label htmlFor="beerName">{t('beerName')}</label><br />
                     <input {...formik.getFieldProps('beerName')} type="text" placeholder="eg. Perła" id="beerName"></input>
                 </div>
 
                 {/* BEER VARIANT */}
                 <div className={styles.beerVariantContainer}>
-                    <label htmlFor="beerVariant">Beer Variant</label><br />
+                    <label htmlFor="beerVariant">{t('beerVariant')}</label><br />
                     <input {...formik.getFieldProps('beerVariant')} type="text" placeholder="eg. Export" id="beerVariant"></input>
                 </div>
 
                 {/* BEER DESCRIPTION */}
                 <div className={styles.beerDescContainer}>
-                    <label htmlFor="beerDescription">Beer Description</label><br />
+                    <label htmlFor="beerDescription">{t('beerDesc')}</label><br />
                     <textarea {...formik.getFieldProps('beerDescription')} name="beerDescription" id="beerDescription" placeholder="eg. Best beer ever."></textarea>
                 </div>
 
@@ -92,13 +94,13 @@ function BeerPopup(props) {
 
                 {/* BEER RATING */}
                 <div className={styles.beerRatingContainer}>
-                    <label htmlFor="beerRating">Beer Rating</label><br />
+                    <label htmlFor="beerRating">{t('beerRating')}</label><br />
                     <input {...formik.getFieldProps('beerRating')} type="number" placeholder="0" id="beerRating" min={0} max={10}></input><p>/10</p>
                 </div>
             </div>
             <div className={styles.bottomPart}>
-                <button type='button' className={styles.beerCancelButton} onClick={() => props.setTrigger(false)}>Cancel</button>
-                <button type='button' onClick={() => formik.handleSubmit()} className={styles.beerCreateButton}>Create</button>
+                <button type='button' className={styles.beerCancelButton} onClick={() => props.setTrigger(false)}>{t('cancel')}</button>
+                <button type='button' onClick={() => formik.handleSubmit()} className={styles.beerCreateButton}>{t('create')}</button>
             </div>
             { props.children }
         </div>

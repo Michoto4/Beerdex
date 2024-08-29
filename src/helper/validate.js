@@ -1,6 +1,8 @@
 import toast from 'react-hot-toast';
 import { authenticate } from './helper';
 
+const lang = localStorage.getItem('i18nextLng');
+
 // ------------ validate login -------------- 
 function loginVerify(error = {}, values){
     usernameVerify(error = {}, values);
@@ -15,7 +17,7 @@ export async function loginValidate(values){
         const {status} = await authenticate(values.username);
 
         if(status !== 200){
-            errors.exist = toast.error('User does not exist');
+            errors.exist = toast.error(lang === 'pl' ? 'Użytkownik nie istnieje' : 'User does not exist');
         }
     }
 
@@ -71,9 +73,9 @@ export async function addBeerValidate(values){
 // validate password
 function passwordVerify(error = {}, values){
     if(!values.password){                                         // Password validation
-        error.password = toast.error('Password Required!');
+        error.password = toast.error(lang === 'pl' ? 'Hasło Wymagane' : 'Password Required!');
     }else if(values.password.includes(" ")){
-        error.password = toast.error(`Can't use empty space!`);
+        error.password = toast.error(lang === 'pl' ? 'Hasło nie może zawierać spacji' : `Can't use empty space!`);
     }
     return error;
 }
@@ -81,9 +83,9 @@ function passwordVerify(error = {}, values){
 // validate password confirm
 function passwordConfirmVerify(error = {}, values){
     if(!values.passwordConfirm){                                  // Password confirm validation
-        error.passwordConfirm = toast.error('Confirm your Password!');
+        error.passwordConfirm = toast.error(lang === 'pl' ? 'Potwierdź Hasło' : 'Confirm your Password!');
     }else if(values.passwordConfirm !== values.password){
-        error.passwordConfirm = toast.error(`Password's doesn't match!`);
+        error.passwordConfirm = toast.error(lang === 'pl' ? 'Hasła nie są takie same' : `Password's doesn't match!`);
     }
     return error;
 }
@@ -91,9 +93,9 @@ function passwordConfirmVerify(error = {}, values){
 // validate E-Mail
 function emailVerify(error = {}, values){
     if(!values.email){                                             // E-Mail validation
-        error.email = toast.error('E-Mail Required!');
+        error.email = toast.error(lang === 'pl' ? 'E-Mail Wymagany' : 'E-Mail Required!');
     }else if(!values.email.includes("@")){
-        error.email = toast.error('Invalid E-Mail!');
+        error.email = toast.error(lang === pl ? 'Nieprawidłowy E-Mail' : 'Invalid E-Mail!');
     }
     return error;
 }
@@ -101,9 +103,9 @@ function emailVerify(error = {}, values){
 // validate username
 function usernameVerify(error = {}, values){
     if(!values.username){                                               // Username validation
-        error.username = toast.error('Username Required!');
+        error.username = toast.error(lang === 'pl' ? 'Nazwa użytkownika wymagana' : 'Username Required!');
     }else if(values.username.includes(" ")){
-        error.username = toast.error(`Can't use empty space!`);
+        error.username = toast.error(lang === 'pl' ? 'Nazwa nie może zawierać spacji' : `Can't use empty space!`);
     }
     return error;
 }
@@ -111,7 +113,7 @@ function usernameVerify(error = {}, values){
 // validate add beer
 function beerVerify(error = {}, values){
     if(values.beerRating > 10){                                         // Password validation
-        error.password = toast.error('Maximum rating is 10!');
+        error.password = toast.error(lang === 'pl' ? 'Maksymalna ocena to 10' : 'Maximum rating is 10!');
     }
     return error;
 }

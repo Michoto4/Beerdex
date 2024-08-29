@@ -87,14 +87,14 @@
 @media (max-width: 550px) {
   .form {
     width: 80%;
-    height: 70%;
+    height: 530px;
     margin: 0;
   }
 }
 @media (max-width: 450px) {
   .form {
     width: 70%;
-    height: 60%;
+    height: 530px;
     margin: 0;
   }
 }/*# sourceMappingURL=Login.module.css.map */

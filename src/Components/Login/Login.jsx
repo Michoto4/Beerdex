@@ -5,9 +5,13 @@ import toast, { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import { loginValidate } from "../../helper/validate";
 import { loginUser } from "../../helper/helper";
+import { useTranslation } from "react-i18next";
+import '../../translation/i18n';
+import LanguageSelector from "../LanguageSelector/LanguageSelector";
 
 function Login(){
 
+    const {t} = useTranslation();
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -36,18 +40,18 @@ function Login(){
     return(
         <div className={styles.container}>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
+            <LanguageSelector></LanguageSelector>
             <form className={styles.form} onSubmit={formik.handleSubmit}>
                 <h3>Beerdex</h3>
 
-                <label htmlFor="username">Username</label>
-                <input {...formik.getFieldProps('username')} type="text" placeholder="Username" id="username"></input>
+                <label htmlFor="username">{t('username')}</label>
+                <input {...formik.getFieldProps('username')} type="text" placeholder={t('username')} id="username"></input>
 
-                <label htmlFor="password">Password</label>
-                <input {...formik.getFieldProps('password')} type="password" placeholder="Password" id="password"></input>
-                <button className={styles.loginButton} type="submit">Log In</button>
-                {/* <Link to={'/home'}><button className={styles.loginButton} type="submit">Log In</button></Link> */}
-                <Link to={'/register'}><button className={styles.registerButton}>Register</button></Link>
-                <p>Forgot password? <a href="/recovery">Recover Now</a></p>
+                <label htmlFor="password">{t('password')}</label>
+                <input {...formik.getFieldProps('password')} type="password" placeholder={t('password')} id="password"></input>
+                <button className={styles.loginButton} type="submit">{t('login')}</button>
+                <Link to={'/register'}><button className={styles.registerButton}>{t('register')}</button></Link>
+                <p>{t('forgot')} <a href="/recovery">{t('recover')}</a></p>
             </form>
         </div>
     )
