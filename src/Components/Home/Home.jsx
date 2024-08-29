@@ -46,12 +46,12 @@ function Home() {
 
     // check if user is logged in (by checking if there is a jwt token saved in your browser's local storage)
     // if isn't then block access by navigating to '/' page
-    // let checkToken = localStorage.getItem('token');
-    // if(!checkToken){
-    //     useEffect(() => {
-    //         navigate('/');
-    //     });
-    // }
+    let checkToken = localStorage.getItem('token');
+    if(!checkToken){
+        useEffect(() => {
+            navigate('/');
+        });
+    }
 
   return (
         <div className={styles.container}>
@@ -72,7 +72,7 @@ function Home() {
                 <input className={styles.beerBrowseInput} type="text" placeholder={t('searchBeer')} />
                 <div className={styles.appContainer}>
                     {beerData?.map((beer) => (
-                        <BeerCard beerName={beer.beerName} beerVariant={beer.beerVariant} beerDescription={beer.beerDescription} beerRating={beer.beerRating} beerPhoto={beer.beerPhoto} />
+                        <BeerCard beerName={beer.beerName} beerVariant={beer.beerVariant} beerDescription={beer.beerDescription} beerRating={beer.beerRating} beerPhoto={beer.beerPhoto} beerDate={beer.beerDate} />
                     ))}
                 </div>
                 <button type="button" className={styles.addBeer} onClick={() => setButtonPopup(true)}><FontAwesomeIcon icon={faPlus} /></button>

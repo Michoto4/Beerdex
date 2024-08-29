@@ -4,13 +4,7 @@ import { useTranslation } from "react-i18next";
 import '../../translation/i18n';
 
 // <BeerCard beerName={beer.beerName} beerVariant={beer.beerVariant} beerDescription={beer.beerDescription} beerRating={beer.beerRating} beerPhoto={beer.beerPhoto} />
-function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto}) {
-    // get current date
-    const date = new Date()
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    let currentDate = `${day}.${month}.${year}`;
+function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto, beerDate}) {
 
     const { t } = useTranslation();
 
@@ -31,7 +25,7 @@ function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto
             <h5>{t('rating')}</h5>
             <p>{beerRating}/10</p>
             <h5>{t('date')}</h5>
-            <p>{currentDate}</p>
+            <p>{beerDate}</p>
         </div>
     </div>
   )
