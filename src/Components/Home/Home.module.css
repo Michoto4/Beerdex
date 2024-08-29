@@ -427,10 +427,13 @@
     margin: 3px 6px;
   }
   .form .topBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     height: 60px;
   }
   .form .topBar h2 {
-    width: 200px;
+    width: 215px;
     font-size: 1.2rem;
   }
   .form .topBar .profileContainer {
@@ -442,10 +445,10 @@
     height: 40px;
   }
   .form .topBar .profileContainer button {
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 30px;
     margin-right: 10px;
-    bottom: 18px;
+    bottom: 15px;
     padding: 0px 0px;
     font-size: 0.5rem;
   }
