@@ -64,7 +64,9 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 beerDesc: 'Beer Description',
                 beerRating: 'Beer Rating',
                 cancel: 'Cancel',
-                create: 'Create'
+                create: 'Create',
+                rating: 'Rating:',
+                date: 'Date Added:'
             }
         },
         pl: {
@@ -125,7 +127,9 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 beerDesc: 'Opis Piwa',
                 beerRating: 'Ocena Piwa',
                 cancel: 'Anuluj',
-                create: 'Utwórz'
+                create: 'Utwórz',
+                rating: 'Ocena:',
+                date: 'Data Dodania:'
             }
         }
     }

@@ -1,6 +1,8 @@
 import React from 'react'
-import beerDefault from '../../assets/beerDefault.jpg'
 import styles from './Home.module.css';
+import { useTranslation } from "react-i18next";
+import '../../translation/i18n';
+
 // <BeerCard beerName={beer.beerName} beerVariant={beer.beerVariant} beerDescription={beer.beerDescription} beerRating={beer.beerRating} beerPhoto={beer.beerPhoto} />
 function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto}) {
     // get current date
@@ -9,6 +11,8 @@ function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
     let currentDate = `${day}.${month}.${year}`;
+
+    const { t } = useTranslation();
 
   return (
     <div className={styles.beerContainer}>
@@ -24,9 +28,9 @@ function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto
             <p>{beerDescription}</p>
         </div>
         <div className={styles.rightContainer}>
-            <h5>Rating:</h5>
+            <h5>{t('rating')}</h5>
             <p>{beerRating}/10</p>
-            <h5>Date Added:</h5>
+            <h5>{t('date')}</h5>
             <p>{currentDate}</p>
         </div>
     </div>
