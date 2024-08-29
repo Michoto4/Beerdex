@@ -28,4 +28,10 @@ body {
 }
 .btn-container button.selected {
   background-color: #646cff;
+}
+
+@media (max-width: 780px) {
+  .btn-container button {
+    font-size: 0.5rem;
+  }
 }/*# sourceMappingURL=App.css.map */
