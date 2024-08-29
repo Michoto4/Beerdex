@@ -66,7 +66,10 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 cancel: 'Cancel',
                 create: 'Create',
                 rating: 'Rating:',
-                date: 'Date Added:'
+                date: 'Date Added:',
+                exampleName: 'eg. Perła',
+                exampleVariant: 'eg. Export',
+                exampleDesc: 'eg. Best Beer Ever'
             }
         },
         pl: {
@@ -129,7 +132,10 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 cancel: 'Anuluj',
                 create: 'Utwórz',
                 rating: 'Ocena:',
-                date: 'Data Dodania:'
+                date: 'Data Dodania:',
+                exampleName: 'np. Perła',
+                exampleVariant: 'np. Export',
+                exampleDesc: 'np. Najlepsze piwo na świecie'
             }
         }
     }

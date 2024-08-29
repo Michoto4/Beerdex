@@ -68,19 +68,19 @@ function BeerPopup(props) {
                 {/* BEER NAME */}
                 <div className={styles.beerNameContainer}>
                     <label htmlFor="beerName">{t('beerName')}</label><br />
-                    <input {...formik.getFieldProps('beerName')} type="text" placeholder="eg. Perła" id="beerName"></input>
+                    <input {...formik.getFieldProps('beerName')} type="text" placeholder={t('exampleName')} id="beerName"></input>
                 </div>
 
                 {/* BEER VARIANT */}
                 <div className={styles.beerVariantContainer}>
                     <label htmlFor="beerVariant">{t('beerVariant')}</label><br />
-                    <input {...formik.getFieldProps('beerVariant')} type="text" placeholder="eg. Export" id="beerVariant"></input>
+                    <input {...formik.getFieldProps('beerVariant')} type="text" placeholder={t('exampleVariant')} id="beerVariant"></input>
                 </div>
 
                 {/* BEER DESCRIPTION */}
                 <div className={styles.beerDescContainer}>
                     <label htmlFor="beerDescription">{t('beerDesc')}</label><br />
-                    <textarea {...formik.getFieldProps('beerDescription')} name="beerDescription" id="beerDescription" placeholder="eg. Best beer ever."></textarea>
+                    <textarea {...formik.getFieldProps('beerDescription')} name="beerDescription" id="beerDescription" placeholder={t('exampleDesc')}></textarea>
                 </div>
 
                 {/* BEER PHOTO */}
