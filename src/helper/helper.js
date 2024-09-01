@@ -132,3 +132,13 @@ export async function addBeer(beerProperties){
         return Promise.reject({error})
     }
 }
+
+/** remove specific beer */
+export async function removeBeer({beerName, beerVariant, beerOwner}){
+    try {
+        const {data, status} = await axios.put(`/api/removeBeer`, {beerName, beerVariant, beerOwner});
+        return Promise.resolve({data: data, status: status});
+    } catch (error) {
+        return Promise.reject({error})
+    }
+}
