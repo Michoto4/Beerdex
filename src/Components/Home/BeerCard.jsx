@@ -15,7 +15,7 @@ function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto
     const { t } = useTranslation();
 
     async function handleRemove(e){
-
+        e.preventDefault();
         const beerNameRemove = e.target.parentElement.parentElement.children[1].firstChild.textContent;
         const beerVariantRemove = e.target.parentElement.parentElement.children[1].firstChild.nextElementSibling.textContent;
         const getUsernamePromise = await getUsername();
