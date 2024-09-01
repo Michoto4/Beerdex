@@ -15,9 +15,9 @@ function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto
     const { t } = useTranslation();
 
     async function handleRemove(e){
-        e.preventDefault();
-        const beerNameRemove = e.target.parentElement.previousElementSibling.firstElementChild.textContent;
-        const beerVariantRemove = e.target.parentElement.previousElementSibling.children[1].textContent;
+
+        const beerNameRemove = e.target.parentElement.parentElement.children[1].firstChild.textContent;
+        const beerVariantRemove = e.target.parentElement.parentElement.children[1].firstChild.nextElementSibling.textContent;
         const getUsernamePromise = await getUsername();
         const { username } = getUsernamePromise;
         // const credentials = {beerName: beerNameRemove, beerVariant: beerVariantRemove, beerOwner: username};
