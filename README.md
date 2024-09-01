@@ -19,6 +19,7 @@ Możesz tu dodać wszystkie piwa jakie pijesz razem z ich zdjęciem, oceną i op
 
 ## CHANGELOG
 
+- [01.09.2024] Added "Remove Beer" Feature
 - [29.08.2024] Added Polish Translation
 - [27.08.2024] Beerdex v1.0 release
 
