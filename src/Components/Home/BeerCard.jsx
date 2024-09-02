@@ -9,6 +9,7 @@ import { removeBeer, getUsername } from '../../helper/helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
+
 // <BeerCard beerName={beer.beerName} beerVariant={beer.beerVariant} beerDescription={beer.beerDescription} beerRating={beer.beerRating} beerPhoto={beer.beerPhoto} />
 function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto, beerDate}) {
 
@@ -16,11 +17,10 @@ function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto
 
     async function handleRemove(e){
         e.preventDefault();
-        const beerNameRemove = e.target.parentElement.parentElement.children[1].firstChild.textContent;
-        const beerVariantRemove = e.target.parentElement.parentElement.children[1].firstChild.nextElementSibling.textContent;
+        const beerNameRemove = e.currentTarget.parentElement.children[1].firstChild.textContent;
+        const beerVariantRemove = e.currentTarget.parentElement.children[1].firstChild.nextElementSibling.textContent;
         const getUsernamePromise = await getUsername();
         const { username } = getUsernamePromise;
-        // const credentials = {beerName: beerNameRemove, beerVariant: beerVariantRemove, beerOwner: username};
         let beerName = beerNameRemove;
         let beerVariant = beerVariantRemove;
         let beerOwner = username;
@@ -50,8 +50,8 @@ function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto
             <p>{beerRating}/10</p>
             <h5>{t('date')}</h5>
             <p>{beerDate}</p>
-            <button onClick={handleRemove}><FontAwesomeIcon icon={faTrashCan} /></button>
         </div>
+        <button onClick={handleRemove}><FontAwesomeIcon icon={faTrashCan} /></button>
     </div>
   )
 }

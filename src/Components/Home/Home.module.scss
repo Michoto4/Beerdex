@@ -141,6 +141,8 @@
                 
             }
             .rightContainer{
+                position: relative;
+                right: -40px;
                 width: 400px;
                 max-width: 400px;
                 height: 100%;
@@ -153,21 +155,23 @@
                     margin: 0;
                     text-align: right;
                 }
-                button{
-                    position: relative;
-                    left: 330px;
-                    top: 15px;
-                    border-radius: 10px;
-                    border: none;
-                    background-color: #bb3535;
-                    font-size: 1rem;
-                    padding: 5px 10px;
-                    transition: 0.25s;
-                    cursor: pointer;
-                }
-                button:hover{
-                    box-shadow: 0px 0px 10px #bb3535;
-                }
+            }
+            button{
+                position: relative;
+                left: -955px;
+                top: -5px;
+                width: 40px;
+                height: 40px;
+                border-radius: 100%;
+                border: none;
+                background-color: #bb3535;
+                font-size: 1rem;
+                padding: 5px 10px;
+                transition: 0.25s;
+                cursor: pointer;
+            }
+            button:hover{
+                box-shadow: 0px 0px 10px #bb3535;
             }
         }
         
@@ -364,6 +368,11 @@
 
 @media (max-width: 1076px) {
     .form{
+        .topBar{
+            .profileContainer{
+                left: 20%;
+            }
+        }
         width: 800px;
         .addBeer{
             left: 88%;
@@ -379,7 +388,20 @@
                 width: 600px;
                 height: 420px;
             }
-        }   
+        } 
+        .appContainer{
+            .rightContainer{
+                left: 35px;
+            }
+            .beerContainer{
+                button{
+                    left: -760px;
+                    top: -5px;
+                    width: 35px;
+                    height: 35px;
+                }
+            }
+        }  
     }
 }
 @media (max-width: 877px) {
@@ -404,6 +426,20 @@
                 height: 420px;
             }
         } 
+
+        .appContainer{
+            .beerContainer{
+                .rightContainer{
+                    right: 0px;
+                }
+                button{
+                    left: -660px;
+                    top: -5px;
+                    width: 35px;
+                    height: 35px;
+                }
+            }
+        }
     }
 }
 @media (max-width: 780px) {
@@ -564,6 +600,7 @@
                     
                 }
                 .rightContainer{
+                    left: 25px;
                     width: 80px;
                     max-width: 80px;
                     overflow: hidden;
@@ -577,6 +614,14 @@
                         text-align: right;
                         font-size: 0.8rem;
                     }
+                }
+                button{
+                    left: -320px;
+                    top: -5px;
+                    width: 25px;
+                    height: 25px;
+                    font-size: 0.8rem;
+                    padding: 0px 0px;
                 }
             }
         }
