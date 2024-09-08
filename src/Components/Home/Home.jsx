@@ -72,7 +72,16 @@ function Home() {
                 <input className={styles.beerBrowseInput} type="text" placeholder={t('searchBeer')} />
                 <div className={styles.appContainer}>
                     {beerData?.map((beer) => (
-                        <BeerCard beerName={beer.beerName} beerVariant={beer.beerVariant} beerDescription={beer.beerDescription} beerRating={beer.beerRating} beerPhoto={beer.beerPhoto} beerDate={beer.beerDate} />
+                        <BeerCard key={beer._id} 
+                                    beerName={beer.beerName} 
+                                    beerVariant={beer.beerVariant} 
+                                    beerDescription={beer.beerDescription} 
+                                    beerRating={beer.beerRating} 
+                                    beerPhoto={beer.beerPhoto} 
+                                    beerDate={beer.beerDate} 
+                                    beerVerticalStyle={beer.beerVerticalStyle} 
+                                    beerHorizontalStyle={beer.beerHorizontalStyle}
+                                    beerWidthStyle={beer.beerWidthStyle}/>
                     ))}
                 </div>
                 <button type="button" className={styles.addBeer} onClick={() => setButtonPopup(true)}><FontAwesomeIcon icon={faPlus} /></button>

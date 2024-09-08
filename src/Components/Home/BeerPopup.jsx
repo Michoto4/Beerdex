@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from './Home.module.css';
 import '../../App.css';
-import avatar from '../../assets/default.jpg';
 import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import useFetch from '../../hooks/fetch.hook';
@@ -28,14 +27,20 @@ function BeerPopup(props) {
             beerVariant: '',
             beerDescription: '',
             beerRating: '',
-            beerPhoto: file || ''
+            beerPhoto: file || '',
+            beerVerticalStyle: '',
+            beerHorizontalStyle: '',
+            beerWidthStyle: ''
         },
         validate : addBeerValidate,
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit : async values => {
             values = await Object.assign(values, {beerPhoto: file || ''});
-            values = await Object.assign(values, {beerOwner: apiData?.username || ''});
+            values = await Object.assign(values, {beerOwner: apiData?.username});
+            values = await Object.assign(values, {beerVerticalStyle: sliderValueVertical});
+            values = await Object.assign(values, {beerHorizontalStyle: sliderValueHorizontal});
+            values = await Object.assign(values, {beerWidthStyle: sliderValueWidth});
             let addBeerPromise = addBeer(values);
             const response = await toast.promise(addBeerPromise, {
                 loading: t('toastLoadingBeer'),
@@ -43,8 +48,8 @@ function BeerPopup(props) {
                 error : t('toastErrorBeer')
             });
             if(response.status === 201){
-                props.setTrigger(false);
                 formik.resetForm();
+                props.setTrigger(false);
             }
         }
     });
@@ -55,6 +60,27 @@ function BeerPopup(props) {
         setFile(base64)
     }
     
+    const [sliderValueVertical, setSliderValueVertical] = useState(0);
+
+    function sliderUpdateVertical(e){
+        const sliderValueVertical = e.target.value
+        setSliderValueVertical(sliderValueVertical);
+    }
+
+    const [sliderValueHorizontal, setSliderValueHorizontal] = useState(0);
+
+    function sliderUpdateHorizontal(e){
+        const sliderValueHorizontal = e.target.value
+        setSliderValueHorizontal(sliderValueHorizontal);
+    }
+
+    const [sliderValueWidth, setSliderValueWidth] = useState(100);
+
+    function sliderUpdateWidth(e){
+        const sliderValueWidth = e.target.value
+        setSliderValueWidth(sliderValueWidth);
+    }
+
 
   return (props.trigger) ? (
     <div className={styles.popupBackground} >
@@ -86,10 +112,20 @@ function BeerPopup(props) {
                 {/* BEER PHOTO */}
                 <div className={styles.beerPhotoContainer}>
                     <label htmlFor="beerPhoto">
-                        <img src={file || addBeerDefault} alt="Beer Photo" />
+                        <img style={{bottom: `${sliderValueVertical}%`, left: `${sliderValueHorizontal}%`, width: `${sliderValueWidth}px`}} src={file || addBeerDefault} alt="Beer Photo" />
                     </label>
                     
                     <input onChange={onUpload} type="file" id='beerPhoto' name='beerPhoto' />
+                </div>
+                
+                {/* BEER IMAGE POSITION VERTICAL */}
+                <div className={styles.beerImageSliderContainerVertical}>
+                    <input onChange={sliderUpdateVertical} type="range" min="-200" max="200" className={styles.sliderInputVertical}/>
+                </div>
+                {/* BEER IMAGE POSITION HORIZONTAL */}
+                <div className={styles.beerImageSliderContainerHorizontal}>
+                    <input onChange={sliderUpdateHorizontal} type="range" min="-200" max="200" className={styles.sliderInputHorizontal}/>
+                    <input onChange={sliderUpdateWidth} type="range" min="100" max="500" className={styles.sliderInputWidth}/>
                 </div>
 
                 {/* BEER RATING */}

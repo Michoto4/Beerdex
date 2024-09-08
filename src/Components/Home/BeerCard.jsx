@@ -11,8 +11,8 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
 
 // <BeerCard beerName={beer.beerName} beerVariant={beer.beerVariant} beerDescription={beer.beerDescription} beerRating={beer.beerRating} beerPhoto={beer.beerPhoto} />
-function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto, beerDate}) {
-
+function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto, beerDate, beerVerticalStyle, beerHorizontalStyle, beerWidthStyle}) {
+    
     const { t } = useTranslation();
 
     async function handleRemove(e){
@@ -36,7 +36,7 @@ function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto
     <div className={styles.beerContainer}>
         <div className={styles.beerImage}>
             <label htmlFor="beerImage">
-                <img src={beerPhoto} alt="beerImage" />
+                <img style={{bottom: `${beerVerticalStyle}%`, left: `${beerHorizontalStyle}%`, width: `${beerWidthStyle}%`}} src={beerPhoto} alt="beerImage" />
             </label>
         </div>
         <div className={styles.middleContainer}>

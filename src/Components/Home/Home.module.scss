@@ -11,7 +11,7 @@
     border: 2px solid rgba(255,255,255,0.1);
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
     padding: 20px 35px;
-
+    
     .topBar{
         display: flex;
         flex-direction: column;
@@ -105,19 +105,16 @@
             margin-bottom: 20px;
             .beerImage{
                 position: relative;
-                width: fit-content;
-                height: fit-content;
-                width: 150px;
+                width: 100px;
                 height: 150px;
+                min-width: 100px;
+                min-height: 150px;
                 border-radius: 10px;
                 overflow: hidden;
                 img{
                     position: relative;
-                    width: 150px;
-                    bottom: 50%;
-                }
-                input[type='file']{
-                    display: none;
+                    min-height: 150px;
+                    min-width: 100px;
                 }
             }
             .middleContainer{
@@ -146,7 +143,6 @@
                 width: 400px;
                 max-width: 400px;
                 height: 100%;
-                overflow: hidden;
                 h5{
                     margin: 0;
                     text-align: right;
@@ -283,21 +279,53 @@
                     }
                 }
                 .beerPhotoContainer{
-                    width: 150px;
+                    width: 100px;
                     height: 150px;
                     margin-right: 15px;
                     overflow: hidden;
+                    border: solid #ffffff 3px;
                     border-radius: 10px;
                     img{
-                        width: 150px;
                         position: relative;
-                        bottom: 50%;
                     }
                     input[type='file']{
                         display: none;
                     }
                 }
+                .beerImageSliderContainerVertical{
+                    position: absolute;
+                    writing-mode: vertical-lr;
+                    direction: rtl;
+                    appearance: slider-vertical;
+                    vertical-align: bottom;
+                    left: 450px;
+                    bottom: 120px;
+                    width: fit-content;
+                    height: fit-content;
+                    .sliderInputVertical{
+                        width: 20px;
+                        height: 100%;
+                    }
+                }
+                .beerImageSliderContainerHorizontal{
+                    position: absolute;
+                    left: 440px;
+                    bottom: 60px;
+                    width: fit-content;
+                    height: fit-content;
+                    .sliderInputHorizontal{
+                        width: 150px;
+                        height: 20px;
+                    }
+                    .sliderInputWidth{
+                        position: relative;
+                        top: 10px;
+                        width: 150px;
+                        height: 20px;
+                    }
+                }
                 .beerRatingContainer{
+                    
                     height: 40px;
                     margin: 10px 10px;
                     input{
@@ -415,7 +443,22 @@
         .addBeer{
             left: 86.5%;
         }
-
+        .beerContainer{
+            .beerImage{
+                position: relative;
+                width: 100px;
+                height: 150px;
+                min-width: 100px;
+                min-height: 150px;
+                border-radius: 10px;
+                overflow: hidden;
+                img{
+                    position: relative;
+                    min-height: 150px;
+                    min-width: 100px;
+                }
+            }
+        }
         ///////////////////////
         /// POPUP CONTAINER ///
         ///////////////////////
@@ -450,7 +493,7 @@
         .popupBackground{
             .popupContainer{
                 margin: 40% 10%;
-                width: 300px;
+                width: 320px;
                 height: 400px;
                 .middlePart{
                     .beerNameContainer{
@@ -484,14 +527,27 @@
                             padding: 2px 5px;
                         }
                     }
-                    .beerPhotoContainer{
-                        width: 100px;
-                        height: 150px;
-                        margin-right: 15px;
-                        img{
-                            width: 100px;
+                    
+                    .beerImageSliderContainerVertical{
+                        left: 170px;
+                        bottom: 105px;
+                        .sliderInputVertical{
+                            width: 20px;
+                            height: 90%;
+                        }
+                    }
+                    .beerImageSliderContainerHorizontal{
+                        left: 190px;
+                        bottom: 50px;
+                        .sliderInputHorizontal{
+                            width: 120px;
+                            height: 10px;
+                        }
+                        .sliderInputWidth{
                             position: relative;
-                            bottom: 5%;
+                            top: 10px;
+                            width: 120px;
+                            height: 10px;
                         }
                     }
                     .beerRatingContainer{
@@ -563,16 +619,26 @@
         }
         .appContainer{
             height: 500px;
+
+
+            /////////////////
+            /// BEER CARD ///
+            /////////////////
             .beerContainer{
-                height: 100px;
+                height: 150px;
+                
                 .beerImage{
-                    width: 50px;
-                    height: 100px;
+                    position: relative;
+                    width: 100px;
+                    height: 150px;
+                    min-width: 100px;
+                    min-height: 150px;
                     border-radius: 10px;
                     overflow: hidden;
                     img{
-                        width: 100px;
-                        bottom: 50%;
+                        position: relative;
+                        min-height: 150px;
+                        min-width: 100px;
                     }
                 }
                 .middleContainer{
@@ -603,7 +669,6 @@
                     left: 25px;
                     width: 80px;
                     max-width: 80px;
-                    overflow: hidden;
                     h5{
                         margin: 0;
                         text-align: right;
@@ -616,12 +681,12 @@
                     }
                 }
                 button{
-                    left: -320px;
+                    left: -315px;
                     top: -5px;
-                    width: 25px;
-                    height: 25px;
-                    font-size: 0.8rem;
-                    padding: 0px 0px;
+                    width: 40px;
+                    height: 35px;
+                    font-size: 1rem;
+                    padding: 2px 5px;
                 }
             }
         }
@@ -632,4 +697,12 @@
             left: 80%;
         }
     } 
+}
+@media (min-height: 1300px) {
+    .form{
+        height: 1000px; 
+        .appContainer{
+            height: 840px;
+        }
+    }
 }

@@ -112,8 +112,10 @@ function usernameVerify(error = {}, values){
 
 // validate add beer
 function beerVerify(error = {}, values){
-    if(values.beerRating > 10){                                         // Password validation
-        error.password = toast.error(lang === 'pl' ? 'Maksymalna ocena to 10' : 'Maximum rating is 10!');
+    if(values.beerRating > 10){                                         // beer validation
+        error.beerRating = toast.error(lang === 'pl' ? 'Maksymalna ocena to 10' : 'Maximum rating is 10!');
+    }else if(values.beerDescription.length > 80){                                         // Password validation
+        error.beerDescription = toast.error(lang === 'pl' ? 'Za Długi Opis (max 80 znaków)' : 'Too Long Description (max 80 chars)');
     }
     return error;
 }
