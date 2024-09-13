@@ -16,15 +16,11 @@ function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto
     const { t } = useTranslation();
 
     async function handleRemove(e){
-        e.preventDefault();
         const beerNameRemove = e.currentTarget.parentElement.children[1].firstChild.textContent;
         const beerVariantRemove = e.currentTarget.parentElement.children[1].firstChild.nextElementSibling.textContent;
         const getUsernamePromise = await getUsername();
         const { username } = getUsernamePromise;
-        let beerName = beerNameRemove;
-        let beerVariant = beerVariantRemove;
-        let beerOwner = username;
-        let removePromise = removeBeer({beerName, beerVariant, beerOwner});
+        let removePromise = removeBeer({beerName: beerNameRemove, beerVariant: beerVariantRemove, beerOwner: username});
         toast.promise(removePromise, {
             loading: t('toastLoadingBeerRemove'),
             success : t('toastSuccessBeerRemove'),
@@ -51,7 +47,7 @@ function BeerCard({beerName, beerVariant, beerDescription, beerRating, beerPhoto
             <h5>{t('date')}</h5>
             <p>{beerDate}</p>
         </div>
-        <button onClick={handleRemove}><FontAwesomeIcon icon={faTrashCan} /></button>
+        <button type='button' onClick={handleRemove} ><FontAwesomeIcon icon={faTrashCan} /></button>
     </div>
   )
 }

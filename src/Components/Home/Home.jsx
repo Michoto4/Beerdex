@@ -5,7 +5,7 @@ import convertToBase64 from '../../helper/convert';
 import { updateUser } from "../../helper/helper";
 import { useNavigate } from 'react-router-dom';
 import useFetch from '../../hooks/fetch.hook';
-import fetchBeers from "../../hooks/fetchBeers.hook.js";
+import useFetchBeers from "../../hooks/fetchBeers.hook.js";
 import avatar from '../../assets/default.jpg';
 import BeerCard from './BeerCard.jsx';
 import BeerPopup from "./BeerPopup.jsx";
@@ -20,10 +20,12 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 function Home() {
     const {t} = useTranslation();
     const [file, setFile] = useState(); // set uploaded avatar to 'file'
+    const [query, setQuery] = useState(); // set query for search beer in useFetchBeers hook
     const [{ isLoading, apiData, serverError }] = useFetch() // fetch user data from database
-    const [{ beerData }] = fetchBeers()
+    const [{ beerData, beerIsLoading, beerServerError }, setBeerData] = useFetchBeers(query); // fetch user BEERS from database
     const navigate = useNavigate()
     const [buttonPopup, setButtonPopup] = useState(false);
+    
 
     // avatar update handler function
     const onUpload = async e => {
@@ -38,13 +40,20 @@ function Home() {
         })
     }
 
+    async function submitSearchBeer(e){    
+        if(e.key == "Enter"){
+            const beerName = e.target.value;
+            setQuery(beerName)
+        }
+    }
+
     // logout handler function
     function userLogout(){
         localStorage.removeItem('token');
         navigate('/')
     }
 
-    // check if user is logged in (by checking if there is a jwt token saved in your browser's local storage)
+    // check if user is logged in (by checking if there is a jwt token saved in their browser's local storage)
     // if isn't then block access by navigating to '/' page
     let checkToken = localStorage.getItem('token');
     if(!checkToken){
@@ -57,7 +66,7 @@ function Home() {
         <div className={styles.container}>
             <Toaster position="top-center" reverseOrder={false}></Toaster>
             <LanguageSelector></LanguageSelector>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
                 <div className={styles.topBar}>
                     <h2>{t('welcome')} <b>{apiData?.username || t('unknown')}</b></h2>
                     <div className={styles.profileContainer}>
@@ -65,24 +74,24 @@ function Home() {
                         <label htmlFor="profile">
                             <img src={ file || apiData?.profile || avatar} alt="avatar" />
                         </label>
-                        <input onChange={onUpload} type="file" id='profile' name='profile' />
+                        <input onChange={onUpload} type="file" id='profile' name='profile'/>
                     </div>
                 </div>
                 <hr />
-                <input className={styles.beerBrowseInput} type="text" placeholder={t('searchBeer')} />
+                <input className={styles.beerBrowseInput} type="text" placeholder={t('searchBeer')} onKeyDown={submitSearchBeer} />
                 <div className={styles.appContainer}>
                     {beerData?.map((beer) => (
-                        <BeerCard key={beer._id} 
-                                    beerName={beer.beerName} 
-                                    beerVariant={beer.beerVariant} 
-                                    beerDescription={beer.beerDescription} 
-                                    beerRating={beer.beerRating} 
-                                    beerPhoto={beer.beerPhoto} 
-                                    beerDate={beer.beerDate} 
-                                    beerVerticalStyle={beer.beerVerticalStyle} 
-                                    beerHorizontalStyle={beer.beerHorizontalStyle}
-                                    beerWidthStyle={beer.beerWidthStyle}/>
-                    ))}
+                            <BeerCard key={beer._id} 
+                                        beerName={beer.beerName} 
+                                        beerVariant={beer.beerVariant} 
+                                        beerDescription={beer.beerDescription} 
+                                        beerRating={beer.beerRating} 
+                                        beerPhoto={beer.beerPhoto} 
+                                        beerDate={beer.beerDate} 
+                                        beerVerticalStyle={beer.beerVerticalStyle} 
+                                        beerHorizontalStyle={beer.beerHorizontalStyle}
+                                        beerWidthStyle={beer.beerWidthStyle}/>
+                        ))}
                 </div>
                 <button type="button" className={styles.addBeer} onClick={() => setButtonPopup(true)}><FontAwesomeIcon icon={faPlus} /></button>
                 <BeerPopup trigger={buttonPopup} setTrigger={setButtonPopup}></BeerPopup>

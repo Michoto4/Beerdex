@@ -83,8 +83,8 @@ function BeerPopup(props) {
 
 
   return (props.trigger) ? (
-    <div className={styles.popupBackground} >
-        <div className={styles.popupContainer} onSubmit={(ev) => ev.target.reset()}>
+    <div className={styles.popupBackground}>
+        <form className={styles.popupContainer} onSubmit={(e) => {e.target.reset(); e.preventDefault();}}>
             <div className={styles.topPart}>
                 <h2>{t('addBeer')}</h2>
                 <button className={styles.closePopup} type='button' onClick={() => props.setTrigger(false)}><FontAwesomeIcon icon={faPlus} /></button>
@@ -139,7 +139,7 @@ function BeerPopup(props) {
                 <button type='button' onClick={() => formik.handleSubmit()} className={styles.beerCreateButton}>{t('create')}</button>
             </div>
             { props.children }
-        </div>
+        </form>
     </div>
   ) : "";
 }

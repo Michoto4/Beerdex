@@ -300,13 +300,35 @@
                     direction: rtl;
                     appearance: slider-vertical;
                     vertical-align: bottom;
-                    left: 450px;
-                    bottom: 120px;
+                    left: 445px;
+                    bottom: 117px;
                     width: fit-content;
                     height: fit-content;
                     .sliderInputVertical{
-                        width: 20px;
-                        height: 100%;
+                        -webkit-appearance: none;  /* Override default CSS styles */
+                        appearance: none;
+                        width: 25px; /* Full-width */
+                        height: 100%; /* Specified height */
+                        background: #d3d3d3; /* Grey background */
+                        outline: none; /* Remove outline */
+                        opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+                        -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+                        transition: opacity .2s;
+                    }
+                    .sliderInputVertical::-webkit-slider-thumb {
+                        -webkit-appearance: none; /* Override default look */
+                        appearance: none;
+                        width: 30px; /* Set a specific slider handle width */
+                            height: 30px; /* Slider handle height */
+                        background: #04AA6D; /* Green background */
+                        cursor: pointer; /* Cursor on hover */
+                    }
+                    .sliderInputVertical::-moz-range-thumb {
+                        border-radius: 20px;
+                        width: 30px; /* Set a specific slider handle width */
+                        height: 30px; /* Slider handle height */
+                        background: #04AA6D; /* Green background */
+                        cursor: pointer; /* Cursor on hover */
                     }
                 }
                 .beerImageSliderContainerHorizontal{
@@ -316,14 +338,62 @@
                     width: fit-content;
                     height: fit-content;
                     .sliderInputHorizontal{
-                        width: 150px;
-                        height: 20px;
+                        position: relative;
+                        top: 15px;
+                        right: 5px;
+                        -webkit-appearance: none;  /* Override default CSS styles */
+                        appearance: none;
+                        width: 100%; /* Full-width */
+                        height: 25px; /* Specified height */
+                        background: #d3d3d3; /* Grey background */
+                        outline: none; /* Remove outline */
+                        opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+                        -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+                        transition: opacity .2s;
+                    }
+                    .sliderInputHorizontal::-webkit-slider-thumb {
+                        -webkit-appearance: none; /* Override default look */
+                        appearance: none;
+                        width: 30px; /* Set a specific slider handle width */
+                        height: 30px; /* Slider handle height */
+                        background: #04AA6D; /* Green background */
+                        cursor: pointer; /* Cursor on hover */
+                    }
+                    .sliderInputHorizontal::-moz-range-thumb {
+                        border-radius: 20px;
+                        width: 30px; /* Set a specific slider handle width */
+                        height: 30px; /* Slider handle height */
+                        background: #04AA6D; /* Green background */
+                        cursor: pointer; /* Cursor on hover */
                     }
                     .sliderInputWidth{
                         position: relative;
                         top: 10px;
-                        width: 150px;
-                        height: 20px;
+                        right: 5px;
+                        -webkit-appearance: none;  /* Override default CSS styles */
+                        appearance: none;
+                        width: 100%; /* Full-width */
+                        height: 25px; /* Specified height */
+                        background: #d3d3d3; /* Grey background */
+                        outline: none; /* Remove outline */
+                        opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+                        -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+                        transition: opacity .2s;
+                    }
+                    .sliderInputWidth::-webkit-slider-thumb {
+                        -webkit-appearance: none; /* Override default look */
+                        appearance: none;
+                        width: 25px; /* Set a specific slider handle width */
+                        height: 25px; /* Slider handle height */
+                        background: #04AA6D; /* Green background */
+                        cursor: pointer; /* Cursor on hover */
+                    }
+                    .sliderInputWidth::-moz-range-thumb {
+                        border-radius: 20px;
+                        width: 30px; /* Set a specific slider handle width */
+                        height: 30px; /* Slider handle height */
+                        background: #04AA6D; /* Green background */
+                        cursor: pointer; /* Cursor on hover */
                     }
                 }
                 .beerRatingContainer{
@@ -494,9 +564,9 @@
         ///////////////////////
         .popupBackground{
             .popupContainer{
-                margin: 40% 10%;
+                margin: 150px 25px;
                 width: 320px;
-                height: 400px;
+                height: 420px;
                 .middlePart{
                     .beerNameContainer{
                         margin: 10px 15px;
@@ -532,24 +602,74 @@
                     
                     .beerImageSliderContainerVertical{
                         left: 170px;
-                        bottom: 105px;
+                        bottom: 125px;
                         .sliderInputVertical{
                             width: 20px;
                             height: 90%;
                         }
                     }
                     .beerImageSliderContainerHorizontal{
-                        left: 190px;
-                        bottom: 50px;
+                        
+                        left: 170px;
+                        bottom: 75px;
+                        
                         .sliderInputHorizontal{
-                            width: 120px;
-                            height: 10px;
+                            position: relative;
+                            top: 26px;
+                            right: 5px;
+                            -webkit-appearance: none;  /* Override default CSS styles */
+                            appearance: none;
+                            width: 100%; /* Full-width */
+                            height: 19px; /* Specified height */
+                            background: #d3d3d3; /* Grey background */
+                            outline: none; /* Remove outline */
+                            opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+                            -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+                            transition: opacity .2s;
+                        }
+                        .sliderInputHorizontal::-webkit-slider-thumb {
+                            -webkit-appearance: none; /* Override default look */
+                            appearance: none;
+                            width: 30px; /* Set a specific slider handle width */
+                            height: 30px; /* Slider handle height */
+                            background: #04AA6D; /* Green background */
+                            cursor: pointer; /* Cursor on hover */
+                        }
+                        .sliderInputHorizontal::-moz-range-thumb {
+                            border-radius: 20px;
+                            width: 30px; /* Set a specific slider handle width */
+                            height: 30px; /* Slider handle height */
+                            background: #04AA6D; /* Green background */
+                            cursor: pointer; /* Cursor on hover */
                         }
                         .sliderInputWidth{
                             position: relative;
-                            top: 10px;
-                            width: 120px;
-                            height: 10px;
+                            top: 35px;
+                            right: 5px;
+                            -webkit-appearance: none;  /* Override default CSS styles */
+                            appearance: none;
+                            width: 100%; /* Full-width */
+                            height: 20px; /* Specified height */
+                            background: #d3d3d3; /* Grey background */
+                            outline: none; /* Remove outline */
+                            opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+                            -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+                            transition: opacity .2s;
+                        }
+                        .sliderInputWidth::-webkit-slider-thumb {
+                            -webkit-appearance: none; /* Override default look */
+                            appearance: none;
+                            width: 30px; /* Set a specific slider handle width */
+                            height: 30px; /* Slider handle height */
+                            background: #04AA6D; /* Green background */
+                            cursor: pointer; /* Cursor on hover */
+                        }
+                        .sliderInputWidth::-moz-range-thumb {
+                            border-radius: 20px;
+                            width: 30px; /* Set a specific slider handle width */
+                            height: 30px; /* Slider handle height */
+                            background: #04AA6D; /* Green background */
+                            cursor: pointer; /* Cursor on hover */
                         }
                     }
                     .beerRatingContainer{
@@ -579,7 +699,7 @@
                     button{
                         height: 30px;
                         width: 60px;
-                        margin: 3px 6px;
+                        margin: 20px 6px;
                     }
                 }
             }   

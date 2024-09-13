@@ -284,16 +284,38 @@
      -moz-appearance: slider-vertical;
           appearance: slider-vertical;
   vertical-align: bottom;
-  left: 450px;
-  bottom: 120px;
+  left: 445px;
+  bottom: 117px;
   width: -moz-fit-content;
   width: fit-content;
   height: -moz-fit-content;
   height: fit-content;
 }
 .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerVertical .sliderInputVertical {
-  width: 20px;
-  height: 100%;
+  -webkit-appearance: none; /* Override default CSS styles */
+  -moz-appearance: none;
+       appearance: none;
+  width: 25px; /* Full-width */
+  height: 100%; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */ /* 0.2 seconds transition on hover */
+  transition: opacity 0.2s;
+}
+.form .popupBackground .popupContainer .middlePart .beerImageSliderContainerVertical .sliderInputVertical::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 30px; /* Set a specific slider handle width */
+  height: 30px; /* Slider handle height */
+  background: #04AA6D; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+.form .popupBackground .popupContainer .middlePart .beerImageSliderContainerVertical .sliderInputVertical::-moz-range-thumb {
+  border-radius: 20px;
+  width: 30px; /* Set a specific slider handle width */
+  height: 30px; /* Slider handle height */
+  background: #04AA6D; /* Green background */
+  cursor: pointer; /* Cursor on hover */
 }
 .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal {
   position: absolute;
@@ -305,14 +327,62 @@
   height: fit-content;
 }
 .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal .sliderInputHorizontal {
-  width: 150px;
-  height: 20px;
+  position: relative;
+  top: 15px;
+  right: 5px;
+  -webkit-appearance: none; /* Override default CSS styles */
+  -moz-appearance: none;
+       appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */ /* 0.2 seconds transition on hover */
+  transition: opacity 0.2s;
+}
+.form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal .sliderInputHorizontal::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 30px; /* Set a specific slider handle width */
+  height: 30px; /* Slider handle height */
+  background: #04AA6D; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+.form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal .sliderInputHorizontal::-moz-range-thumb {
+  border-radius: 20px;
+  width: 30px; /* Set a specific slider handle width */
+  height: 30px; /* Slider handle height */
+  background: #04AA6D; /* Green background */
+  cursor: pointer; /* Cursor on hover */
 }
 .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal .sliderInputWidth {
   position: relative;
   top: 10px;
-  width: 150px;
-  height: 20px;
+  right: 5px;
+  -webkit-appearance: none; /* Override default CSS styles */
+  -moz-appearance: none;
+       appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */ /* 0.2 seconds transition on hover */
+  transition: opacity 0.2s;
+}
+.form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal .sliderInputWidth::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #04AA6D; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+.form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal .sliderInputWidth::-moz-range-thumb {
+  border-radius: 20px;
+  width: 30px; /* Set a specific slider handle width */
+  height: 30px; /* Slider handle height */
+  background: #04AA6D; /* Green background */
+  cursor: pointer; /* Cursor on hover */
 }
 .form .popupBackground .popupContainer .middlePart .beerRatingContainer {
   height: 40px;
@@ -441,9 +511,9 @@
     width: 350px;
   }
   .form .popupBackground .popupContainer {
-    margin: 40% 10%;
+    margin: 150px 25px;
     width: 320px;
-    height: 400px;
+    height: 420px;
   }
   .form .popupBackground .popupContainer .middlePart .beerNameContainer {
     margin: 10px 15px;
@@ -478,25 +548,73 @@
   }
   .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerVertical {
     left: 170px;
-    bottom: 105px;
+    bottom: 125px;
   }
   .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerVertical .sliderInputVertical {
     width: 20px;
     height: 90%;
   }
   .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal {
-    left: 190px;
-    bottom: 50px;
+    left: 170px;
+    bottom: 75px;
   }
   .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal .sliderInputHorizontal {
-    width: 120px;
-    height: 10px;
+    position: relative;
+    top: 26px;
+    right: 5px;
+    -webkit-appearance: none; /* Override default CSS styles */
+    -moz-appearance: none;
+         appearance: none;
+    width: 100%; /* Full-width */
+    height: 19px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */ /* 0.2 seconds transition on hover */
+    transition: opacity 0.2s;
+  }
+  .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal .sliderInputHorizontal::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 30px; /* Set a specific slider handle width */
+    height: 30px; /* Slider handle height */
+    background: #04AA6D; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+  }
+  .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal .sliderInputHorizontal::-moz-range-thumb {
+    border-radius: 20px;
+    width: 30px; /* Set a specific slider handle width */
+    height: 30px; /* Slider handle height */
+    background: #04AA6D; /* Green background */
+    cursor: pointer; /* Cursor on hover */
   }
   .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal .sliderInputWidth {
     position: relative;
-    top: 10px;
-    width: 120px;
-    height: 10px;
+    top: 35px;
+    right: 5px;
+    -webkit-appearance: none; /* Override default CSS styles */
+    -moz-appearance: none;
+         appearance: none;
+    width: 100%; /* Full-width */
+    height: 20px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */ /* 0.2 seconds transition on hover */
+    transition: opacity 0.2s;
+  }
+  .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal .sliderInputWidth::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 30px; /* Set a specific slider handle width */
+    height: 30px; /* Slider handle height */
+    background: #04AA6D; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+  }
+  .form .popupBackground .popupContainer .middlePart .beerImageSliderContainerHorizontal .sliderInputWidth::-moz-range-thumb {
+    border-radius: 20px;
+    width: 30px; /* Set a specific slider handle width */
+    height: 30px; /* Slider handle height */
+    background: #04AA6D; /* Green background */
+    cursor: pointer; /* Cursor on hover */
   }
   .form .popupBackground .popupContainer .middlePart .beerRatingContainer {
     height: 40px;
@@ -523,7 +641,7 @@
   .form .popupBackground .popupContainer .bottomPart button {
     height: 30px;
     width: 60px;
-    margin: 3px 6px;
+    margin: 20px 6px;
   }
   .form .topBar {
     display: flex;
