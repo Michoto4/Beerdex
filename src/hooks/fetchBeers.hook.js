@@ -21,7 +21,7 @@ export default function useFetchBeers(query){
                 setData(prev => ({...prev, isLoading: true}));
 
                 const {username} = await getUsername();
-                const {data, status} = !query ? await axios.get(`api/getBeers/${username}`) : await axios.get(`/api/searchBeer/${username}/${query}`); // this second part with query isn't doing anything atm but might use it later or delete it
+                const {data, status} = !query ? await axios.get(`api/getBeers/${username}`) : await axios.get(`/api/searchBeer/${username}/${query}`); 
 
                 if(status === 201){
                     setData(prev => ({...prev, isLoading: false}));
