@@ -14,6 +14,13 @@ function Login(){
     const {t} = useTranslation();
     const navigate = useNavigate();
 
+    let checkToken = localStorage.getItem('token');
+    if(!checkToken){
+        useEffect(() => {
+            navigate('/');
+        });
+    }
+
     const formik = useFormik({
         initialValues : {
             username : '',
