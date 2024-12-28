@@ -26,6 +26,9 @@ function Home() {
     const navigate = useNavigate()
     const [buttonPopup, setButtonPopup] = useState(false);
     
+    if(isLoading){
+        // kiedys tu zrobie kolko wczytywania czy cos takiego
+    }
 
     // avatar update handler function
     const onUpload = async e => {
@@ -60,6 +63,12 @@ function Home() {
         useEffect(() => {
             navigate('/');
         });
+    }
+
+    // if fetch hook returns error because it didn't find the user in database - remove token and log them out
+    if (serverError === "User doesn't exist") {
+        localStorage.removeItem('token');
+        navigate('/')
     }
 
   return (

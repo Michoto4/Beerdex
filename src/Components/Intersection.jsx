@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { getUsername } from "../helper/helper";
 
 // check if user is logged in and decide where to redirect them
 
@@ -11,9 +12,16 @@ export default function Intersection(){
             navigate('/login');
         });
     } else {
-        useEffect(() => {
-            navigate('/home');
-        });
+        let username = getUsername();
+        if(!username){
+            useEffect(() => {
+                navigate('/login');
+            });
+        } else {
+            useEffect(() => {
+                navigate('/home');
+            });
+        }
     }
 
     return <></>;

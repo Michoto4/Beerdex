@@ -27,6 +27,9 @@ export default function useFetch(query){
                     setData(prev => ({...prev, isLoading: false}));
                     setData(prev => ({...prev, apiData: data, status: status}));
                 }
+                if(status === 401){
+                    setData(prev => ({...prev, isLoading: false, serverError: error}));
+                }
                 setData(prev => ({...prev, isLoading: false}));
 
             } catch (error) {
