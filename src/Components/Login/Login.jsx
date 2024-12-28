@@ -15,7 +15,7 @@ function Login(){
     const navigate = useNavigate();
 
     let checkToken = localStorage.getItem('token');
-    if(!checkToken){
+    if(checkToken){
         useEffect(() => {
             navigate('/');
         });
