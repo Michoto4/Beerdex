@@ -19,16 +19,18 @@ Możesz tu dodać wszystkie piwa jakie pijesz razem z ich zdjęciem, oceną i op
 
 ## CHANGELOG
 
-- [23.11.2024] moved Beerdex to a new cloud vm instance so now everthing is faster and more stable
-- [14.09.2024] added "Search Beer" Feature, you can now search beers by their name + some improvements
+- [23.11.2024] Fixed "Search Beer" Feature, so now it ACTUALLY works and you can ACTUALLY search beers
+- [23.11.2024] Moved Beerdex to a new cloud vm instance so now everthing is faster and more stable
+- [14.09.2024] Added "Search Beer" Feature, you can now search beers by their name + some improvements
 - [08.09.2024] Added Beer Resizing when creating a Beer
 - [01.09.2024] Added "Remove Beer" Feature
 - [29.08.2024] Added Polish Translation
 - [27.08.2024] Beerdex v1.0 release
 
 ## TODO
-- fix the search engine
-- improve fetching beers from database to make it faster and better in general
+
+- make some improvements to website design
+- improve fetching beers from database to make it faster and better in general (not sure if its needed actually)
 
 ## Authors
 
