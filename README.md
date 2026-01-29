@@ -19,6 +19,7 @@ Możesz tu dodać wszystkie piwa jakie pijesz razem z ich zdjęciem, oceną i op
 
 ## CHANGELOG
 
+- [28.01.2026] Combined frontend and backend into one repo
 - [29.12.2024] Fixed "Search Beer" Feature, so now it ACTUALLY works and you can ACTUALLY search beers
 - [23.11.2024] Moved Beerdex to a new cloud vm instance so now everthing is faster and more stable
 - [14.09.2024] Added "Search Beer" Feature, you can now search beers by their name + some improvements
@@ -30,7 +31,7 @@ Możesz tu dodać wszystkie piwa jakie pijesz razem z ich zdjęciem, oceną i op
 ## TODO
 
 - make some improvements to website design
-- improve fetching beers from database to make it faster and better in general (not sure if its needed actually)
+- improve fetching beers from database to make it faster and better in general
 
 ## Authors
 

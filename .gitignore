@@ -24,4 +24,14 @@ dist-ssr
 *.sw?
 
 # Other
-.sh
+*.sh
+backend/config.js
+backend/database/connect.js
+.vite/
+frontend/.vite/
+backend/.vite/
+frontend/node_modules/
+backend/node_modules/
+.env
+backend/.env
+frontend/.env
