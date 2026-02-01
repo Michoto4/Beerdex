@@ -1,40 +1,41 @@
-body{ 
-    background-color: #080710;
+body {
+  background-color: #080710;
 }
-*{
-    font-family: 'Poppins', sans-serif;
-    color: white;
+* {
+  font-family: "Poppins", sans-serif;
+  color: white;
 }
-.btn-container{
-    button {
-        border-radius: 8px;
-        border: 1px solid transparent;
-        padding: 0.6em 1.2em;
-        margin: 5px 10px;
-        font-size: 1em;
-        font-weight: 500;
-        font-family: inherit;
-        background-color: #1a1a1a;
-        cursor: pointer;
-        transition: border-color 0.25s;
-      }
-      button:hover {
-        border-color: #646cff;
-      }
-      button:focus,
-      button:focus-visible {
-        outline: 4px auto -webkit-focus-ring-color;
-      }
-      
-      button.selected {
-        background-color: #646cff;
-      }
+.btn-container {
+  button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    margin: 5px 10px;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+  }
+  button:hover {
+    border-color: #646cff;
+  }
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+
+  button.selected {
+    background-color: #646cff;
+  }
 }
 
 @media (max-width: 780px) {
-  .btn-container{
-    button{
+  .btn-container {
+    button {
       font-size: 0.5rem;
     }
   }
 }
+
