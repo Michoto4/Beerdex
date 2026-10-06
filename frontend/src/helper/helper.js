@@ -4,6 +4,15 @@ import { jwtDecode } from 'jwt-decode';
 
 axios.defaults.baseURL = ENV.BASE_URL;
 
+// Automatically attach JWT token to all requests if present
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 
 /** make API requests */
 

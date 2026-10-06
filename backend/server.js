@@ -4,6 +4,8 @@ import morgan from 'morgan';
 import connect from './database/connect.js';
 import router from './router/route.js';
 
+import ENV from './config.js';
+
 const app = express();
 
 /** middlewares */
@@ -13,7 +15,7 @@ app.use(cors());
 app.use(morgan('tiny'));
 app.disable('x-powered-by');
 
-const port = 8080;
+const port = ENV.PORT || 8080;
 
 /** HTTP GET request */
 app.get('/', (req, res) => {

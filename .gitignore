@@ -25,7 +25,6 @@ dist-ssr
 
 # Other
 *.sh
-backend/config.js
 .vite/
 frontend/.vite/
 backend/.vite/

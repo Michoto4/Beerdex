@@ -16,7 +16,10 @@ export const UserSchema = new mongoose.Schema({
         required: [true, "Please enter a email"],
         unique: true
     },
-    profile: {type: String}
+    profile: { type: String },
+    resetOtp: { type: String, default: null },
+    resetOtpExpires: { type: Date, default: null },
+    resetSession: { type: Boolean, default: false }
 });
 
 export default mongoose.model.Users || mongoose.model('User', UserSchema);
