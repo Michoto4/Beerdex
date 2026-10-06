@@ -33,3 +33,4 @@ backend/node_modules/
 .env
 backend/.env
 frontend/.env
+backend/scripts/
