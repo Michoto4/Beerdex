@@ -1,0 +1,324 @@
+.sheetBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 90;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.bottomSheet {
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  background: linear-gradient(180deg, #172133 0%, #0f1523 100%);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-top: 1px solid rgba(88, 101, 242, 0.35);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.dragHandleBar {
+  display: flex;
+  justify-content: center;
+  padding-top: 12px;
+  padding-bottom: 6px;
+
+  .dragHandle {
+    width: 44px;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+  }
+}
+
+.sheetHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .closeBtn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.3rem;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+
+    &:hover {
+      color: #ffffff;
+      background-color: var(--bg-surface);
+    }
+  }
+}
+
+.sheetBody {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+
+  &.fullWidth {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  input, textarea {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 10px rgba(88, 101, 242, 0.25);
+    }
+  }
+
+  textarea {
+    min-height: 85px;
+    resize: vertical;
+  }
+}
+
+.photoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: var(--bg-secondary);
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+
+  .photoLabelRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+  }
+
+  .uploadTrigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-main);
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    width: 100%;
+
+    &:hover {
+      background-color: var(--bg-surface-hover);
+      border-color: var(--accent-blue);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+  }
+}
+
+.cropperContainer {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  background-color: #000000;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.cropControls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+
+  .zoomRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent-blue);
+    }
+  }
+
+  .confirmCropBtn {
+    background-color: var(--accent-blue);
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: var(--accent-blue-hover);
+    }
+  }
+}
+
+.croppedPreview {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+
+  img {
+    width: 70px;
+    height: 95px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--accent-blue);
+  }
+
+  .reCropBtn {
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-muted);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    cursor: pointer;
+
+    &:hover {
+      color: #ffffff;
+      border-color: var(--accent-blue);
+    }
+  }
+}
+
+.sheetFooter {
+  padding: 16px 20px 24px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  gap: 12px;
+
+  .cancelBtn {
+    flex: 1;
+    background-color: var(--bg-surface);
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+    padding: 12px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      color: var(--text-main);
+      background-color: var(--bg-surface-hover);
+    }
+  }
+
+  .submitBtn {
+    flex: 2;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(34, 197, 94, 0.35);
+
+    &:hover {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+@media (max-width: 540px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+    .inputGroup.fullWidth {
+      grid-column: span 1;
+    }
+  }
+}

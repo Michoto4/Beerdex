@@ -42,9 +42,14 @@ function Recovery() {
   return (
     <div className={styles.container}>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <LanguageSelector></LanguageSelector>
+      <div className={styles.topLangBar}>
+        <LanguageSelector />
+      </div>
       <form className={styles.form} onSubmit={formik.handleSubmit}>
-        <h3>{t("passwordRecovery")}</h3>
+        <div className={styles.headerArea}>
+          <div className={styles.logoIcon}>🔑</div>
+          <h3>{t("passwordRecovery")}</h3>
+        </div>
         <label htmlFor="username">{t("username")}</label>{" "}
         <i aria-hidden="true" data-tooltip={t("tooltip")}>
           <FontAwesomeIcon icon={faCircleQuestion} />
@@ -58,6 +63,9 @@ function Recovery() {
         <button className={styles.resetButton} type="submit">
           {t("sendMail")}
         </button>
+        <p className={styles.footerText}>
+          <a href="/login">← {t("login")}</a>
+        </p>
       </form>
     </div>
   );

@@ -34,3 +34,4 @@ backend/node_modules/
 backend/.env
 frontend/.env
 backend/scripts/
+PROJECT_SUMMARY.md

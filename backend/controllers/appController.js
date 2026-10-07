@@ -253,6 +253,38 @@ export async function resetPassword(req, res) {
     }
 }
 
+/** PUT: http://localhost:8080/api/changePassword
+ * Change password when logged in (requires current password)
+ */
+export async function changePassword(req, res) {
+    try {
+        const { userId } = req.user;
+        const { currentPassword, newPassword } = req.body;
+
+        if (!currentPassword || !newPassword) {
+            return res.status(400).send({ error: "Both current and new passwords are required" });
+        }
+
+        const user = await UserModel.findById(userId);
+        if (!user) {
+            return res.status(404).send({ error: "User not found" });
+        }
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).send({ error: "Current password is incorrect" });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await UserModel.updateOne({ _id: userId }, { password: hashedPassword });
+
+        return res.status(200).send({ msg: "Password changed successfully" });
+    } catch (error) {
+        console.error("changePassword error:", error);
+        return res.status(500).send({ error: "Internal server error" });
+    }
+}
+
 
 /** POST: http://localhost:8080/api/createBeer
  : {

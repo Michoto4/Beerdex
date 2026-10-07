@@ -8,6 +8,7 @@ import { loginUser } from "../../helper/helper";
 import { useTranslation } from "react-i18next";
 import "../../translation/i18n";
 import LanguageSelector from "../LanguageSelector/LanguageSelector";
+import logo from "../../assets/logo.png";
 
 function Login() {
   const { t } = useTranslation();
@@ -49,9 +50,15 @@ function Login() {
   return (
     <div className={styles.container}>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <LanguageSelector></LanguageSelector>
+      <div className={styles.topLangBar}>
+        <LanguageSelector />
+      </div>
       <form className={styles.form} onSubmit={formik.handleSubmit}>
-        <h3>Beerdex</h3>
+        <div className={styles.headerArea}>
+          <img src={logo} alt="Beerdex" className={styles.logoImg} />
+          <h3>Beerdex</h3>
+          <p>{t("login")}</p>
+        </div>
 
         <label htmlFor="username">{t("username")}</label>
         <input
@@ -59,7 +66,7 @@ function Login() {
           type="text"
           placeholder={t("username")}
           id="username"
-        ></input>
+        />
 
         <label htmlFor="password">{t("password")}</label>
         <input
@@ -67,15 +74,20 @@ function Login() {
           type="password"
           placeholder={t("password")}
           id="password"
-        ></input>
+        />
+
         <button className={styles.loginButton} type="submit">
           {t("login")}
         </button>
-        <Link to={"/register"}>
-          <button className={styles.registerButton}>{t("register")}</button>
+
+        <Link to="/register" style={{ textDecoration: "none" }}>
+          <button className={styles.registerButton} type="button">
+            {t("register")}
+          </button>
         </Link>
-        <p>
-          {t("forgot")} <a href="/recovery">{t("recover")}</a>
+
+        <p className={styles.footerText}>
+          {t("forgot")} <Link to="/recovery">{t("recover")}</Link>
         </p>
       </form>
     </div>

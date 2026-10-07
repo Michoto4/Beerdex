@@ -43,9 +43,14 @@ function Reset() {
   return (
     <div className={styles.container}>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <LanguageSelector></LanguageSelector>
+      <div className={styles.topLangBar}>
+        <LanguageSelector />
+      </div>
       <form className={styles.form} onSubmit={formik.handleSubmit}>
-        <h3>{t("resetPassword")}</h3>
+        <div className={styles.headerArea}>
+          <div className={styles.logoIcon}>🔒</div>
+          <h3>{t("resetPassword")}</h3>
+        </div>
 
         <label htmlFor="password">{t("newPassword")}</label>
         <input

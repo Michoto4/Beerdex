@@ -1,100 +1,145 @@
-.form {
-  height: 530px;
-  width: 400px;
-  background-color: rgba(255, 255, 255, 0.13);
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 16px;
+  background-color: var(--bg-primary);
+  position: relative;
+}
+
+.topLangBar {
   position: absolute;
-  transform: translate(-50%, -50%);
-  top: 50%;
-  left: 50%;
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-  padding: 50px 35px;
+  top: 16px;
+  right: 16px;
+}
+
+.form {
+  width: 100%;
+  max-width: 420px;
+  background-color: rgba(22, 31, 48, 0.85);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
 
   * {
     font-family: "Poppins", sans-serif;
     color: #ffffff;
-    letter-spacing: 0.5px;
     outline: none;
-    border: none;
   }
 
-  h3 {
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 42px;
+  .headerArea {
     text-align: center;
+    margin-bottom: 24px;
+
+    .logoImg {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      object-fit: cover;
+      margin-bottom: 8px;
+      box-shadow: 0 0 20px rgba(88, 101, 242, 0.4);
+    }
+
+    h3 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
   }
 
   label {
     display: block;
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 500;
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
   }
 
   input {
     display: block;
-    height: 50px;
-    width: 95%;
-    background-color: rgba(255, 255, 255, 0.07);
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: 300;
+    height: 48px;
+    width: 100%;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 0 14px;
+    margin-top: 6px;
+    font-size: 15px;
+    color: #ffffff;
+    transition: all 0.2s;
+
+    &:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 12px rgba(88, 101, 242, 0.25);
+    }
   }
+
   a {
-    color: rgb(30, 114, 209);
+    color: var(--accent-cyan);
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
-  p {
-    margin: 0px;
+
+  .footerText {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
   }
 }
+
 .loginButton {
-  margin-top: 50px;
-  margin-bottom: 20px;
+  margin-top: 28px;
+  margin-bottom: 12px;
   width: 100%;
-  background-color: #ffffff;
-  color: #080710;
-  padding: 15px 0;
-  font-size: 18px;
+  background-color: var(--accent-blue);
+  color: #ffffff;
+  padding: 13px 0;
+  font-size: 16px;
   font-weight: 600;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
+  border: none;
   cursor: pointer;
-  transition: 0.25s;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(88, 101, 242, 0.4);
+
+  &:hover {
+    background-color: var(--accent-blue-hover);
+    transform: translateY(-1px);
+  }
 }
+
 .registerButton {
   width: 100%;
-  background-color: #080710;
-  color: #fff;
-  padding: 15px 0;
-  font-size: 18px;
+  background-color: var(--bg-surface);
+  color: #ffffff;
+  padding: 13px 0;
+  font-size: 16px;
   font-weight: 600;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
   cursor: pointer;
-  transition: 0.25s;
-}
-.loginButton:hover {
-  background-color: #cccccc;
-}
-.registerButton:hover {
-  background-color: #080710dc;
-}
+  transition: all 0.2s;
 
-@media (max-width: 550px) {
-  .form {
-    width: 80%;
-    height: 530px;
-    margin: 0;
+  &:hover {
+    background-color: var(--bg-surface-hover);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 }
-@media (max-width: 450px) {
-  .form {
-    width: 70%;
-    height: 530px;
-    margin: 0;
-  }
-}
-

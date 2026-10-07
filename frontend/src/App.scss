@@ -1,40 +1,94 @@
-body {
-  background-color: #080710;
+:root {
+  --bg-primary: #0b0f19;
+  --bg-secondary: #131b2a;
+  --bg-surface: #1a2336;
+  --bg-surface-hover: #222e47;
+  --bg-glass: rgba(22, 31, 48, 0.75);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(88, 101, 242, 0.6);
+  --accent-blue: #5865f2;
+  --accent-blue-hover: #4752c4;
+  --accent-cyan: #38bdf8;
+  --accent-green: #22c55e;
+  --accent-green-hover: #16a34a;
+  --accent-danger: #ef4444;
+  --accent-danger-hover: #dc2626;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 20px rgba(88, 101, 242, 0.25);
 }
+
 * {
-  font-family: "Poppins", sans-serif;
-  color: white;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  overflow-x: hidden;
+}
+
+body {
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(88, 101, 242, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(56, 189, 248, 0.06) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: #232d42;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #33415e;
+}
+
 .btn-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
   button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    margin: 5px 10px;
-    font-size: 1em;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+    padding: 6px 14px;
+    font-size: 0.85rem;
     font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
+    color: var(--text-muted);
+    background-color: var(--bg-secondary);
     cursor: pointer;
-    transition: border-color 0.25s;
-  }
-  button:hover {
-    border-color: #646cff;
-  }
-  button:focus,
-  button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-  }
+    transition: all 0.2s ease;
 
-  button.selected {
-    background-color: #646cff;
-  }
-}
+    &:hover {
+      color: var(--text-main);
+      border-color: var(--accent-blue);
+      background-color: var(--bg-surface);
+    }
 
-@media (max-width: 780px) {
-  .btn-container {
-    button {
-      font-size: 0.5rem;
+    &.selected {
+      background-color: var(--accent-blue);
+      color: #ffffff;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 12px rgba(88, 101, 242, 0.4);
     }
   }
 }

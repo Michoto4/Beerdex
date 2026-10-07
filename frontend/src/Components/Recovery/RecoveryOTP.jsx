@@ -46,9 +46,14 @@ function RecoveryOTP() {
   return (
     <div className={styles.container}>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <LanguageSelector></LanguageSelector>
+      <div className={styles.topLangBar}>
+        <LanguageSelector />
+      </div>
       <form className={styles.form} onSubmit={formik.handleSubmit}>
-        <h3>{t("passwordRecovery")}</h3>
+        <div className={styles.headerArea}>
+          <div className={styles.logoIcon}>📩</div>
+          <h3>{t("passwordRecovery")}</h3>
+        </div>
 
         <label htmlFor="OTP">{t("verifyCode")}</label>
         <input
@@ -61,7 +66,10 @@ function RecoveryOTP() {
           {t("verify")}
         </button>
         <p className={styles.resend}>
-          {t("didntReceive")} <a onClick={resend}>{t("resend")}</a>
+          {t("didntReceive")}{" "}
+          <span onClick={resend} style={{ color: "var(--accent-cyan)", cursor: "pointer", fontWeight: 600 }}>
+            {t("resend")}
+          </span>
         </p>
       </form>
     </div>

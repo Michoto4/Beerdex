@@ -92,30 +92,48 @@ function passwordConfirmVerify(error = {}, values) {
 
 // validate E-Mail
 function emailVerify(error = {}, values) {
+  const currentLang = localStorage.getItem('i18nextLng') || 'en';
   if (!values.email) {                                             // E-Mail validation
-    error.email = toast.error(lang === 'pl' ? 'E-Mail Wymagany' : 'E-Mail Required!');
+    error.email = toast.error(currentLang.startsWith('pl') ? 'E-Mail Wymagany' : 'E-Mail Required!');
   } else if (!values.email.includes("@")) {
-    error.email = toast.error(lang === pl ? 'Nieprawidłowy E-Mail' : 'Invalid E-Mail!');
+    error.email = toast.error(currentLang.startsWith('pl') ? 'Nieprawidłowy E-Mail' : 'Invalid E-Mail!');
   }
   return error;
 }
 
 // validate username
 function usernameVerify(error = {}, values) {
+  const currentLang = localStorage.getItem('i18nextLng') || 'en';
   if (!values.username) {                                               // Username validation
-    error.username = toast.error(lang === 'pl' ? 'Nazwa użytkownika wymagana' : 'Username Required!');
+    error.username = toast.error(currentLang.startsWith('pl') ? 'Nazwa użytkownika wymagana' : 'Username Required!');
   } else if (values.username.includes(" ")) {
-    error.username = toast.error(lang === 'pl' ? 'Nazwa nie może zawierać spacji' : `Can't use empty space!`);
+    error.username = toast.error(currentLang.startsWith('pl') ? 'Nazwa nie może zawierać spacji' : `Can't use empty space!`);
   }
   return error;
 }
 
 // validate add beer
 function beerVerify(error = {}, values) {
+  const currentLang = localStorage.getItem('i18nextLng') || 'en';
   if (values.beerRating > 10) {                                         // beer validation
-    error.beerRating = toast.error(lang === 'pl' ? 'Maksymalna ocena to 10' : 'Maximum rating is 10!');
-  } else if (values.beerDescription.length > 120) {                                         // Password validation
-    error.beerDescription = toast.error(lang === 'pl' ? 'Za Długi Opis (max 120 znaków)' : 'Too Long Description (max 120 chars)');
+    error.beerRating = toast.error(currentLang.startsWith('pl') ? 'Maksymalna ocena to 10' : 'Maximum rating is 10!');
+  } else if (values.beerDescription && values.beerDescription.length > 1500) {
+    error.beerDescription = toast.error(currentLang.startsWith('pl') ? 'Za długi opis (max 1500 znaków)' : 'Too long description (max 1500 chars)');
   }
   return error;
+}
+
+export async function changePasswordValidate(values) {
+  const currentLang = localStorage.getItem('i18nextLng') || 'en';
+  const errors = {};
+  if (!values.currentPassword) {
+    errors.currentPassword = toast.error(currentLang.startsWith('pl') ? 'Podaj aktualne hasło' : 'Current password required');
+  } else if (!values.newPassword) {
+    errors.newPassword = toast.error(currentLang.startsWith('pl') ? 'Podaj nowe hasło' : 'New password required');
+  } else if (values.newPassword.length < 4) {
+    errors.newPassword = toast.error(currentLang.startsWith('pl') ? 'Hasło musi mieć min. 4 znaki' : 'Password must be at least 4 characters');
+  } else if (values.newPassword !== values.confirmPassword) {
+    errors.confirmPassword = toast.error(currentLang.startsWith('pl') ? 'Hasła nie są takie same' : "Passwords do not match");
+  }
+  return errors;
 }

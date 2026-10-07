@@ -8,6 +8,7 @@ import { registerUser } from "../../helper/helper";
 import { useTranslation } from "react-i18next";
 import "../../translation/i18n";
 import LanguageSelector from "../LanguageSelector/LanguageSelector";
+import logo from "../../assets/logo.png";
 
 function Register() {
   const { t } = useTranslation();
@@ -41,9 +42,15 @@ function Register() {
   return (
     <div className={styles.container}>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <LanguageSelector></LanguageSelector>
+      <div className={styles.topLangBar}>
+        <LanguageSelector />
+      </div>
       <form className={styles.form} onSubmit={formik.handleSubmit}>
-        <h3>Beerdex</h3>
+        <div className={styles.headerArea}>
+          <img src={logo} alt="Beerdex" className={styles.logoImg} />
+          <h3>Beerdex</h3>
+          <p>{t("register")}</p>
+        </div>
 
         <label htmlFor="username">{t("username")}</label>
         <input
@@ -51,15 +58,15 @@ function Register() {
           type="text"
           placeholder={t("username")}
           id="username"
-        ></input>
+        />
 
         <label htmlFor="email">E-Mail</label>
         <input
           {...formik.getFieldProps("email")}
-          type="text"
+          type="email"
           placeholder="E-mail"
           id="email"
-        ></input>
+        />
 
         <label htmlFor="password">{t("password")}</label>
         <input
@@ -67,7 +74,7 @@ function Register() {
           type="password"
           placeholder={t("password")}
           id="password"
-        ></input>
+        />
 
         <label htmlFor="passwordConfirm">{t("confirmPassword")}</label>
         <input
@@ -75,12 +82,14 @@ function Register() {
           type="password"
           placeholder={t("confirmPassword")}
           id="passwordConfirm"
-        ></input>
+        />
+
         <button className={styles.registerButton} type="submit">
           {t("register")}
         </button>
-        <p>
-          {t("alreadyHave")} <a href="/">{t("login")}</a>
+
+        <p className={styles.footerText}>
+          {t("alreadyHave")} <Link to="/login">{t("login")}</Link>
         </p>
       </form>
     </div>

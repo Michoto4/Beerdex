@@ -6,6 +6,8 @@ import Recovery from "./Components/Recovery/Recovery";
 import Reset from "./Components/Reset/Reset";
 import Intersection from "./Components/Intersection";
 import RecoveryOTP from "./Components/Recovery/RecoveryOTP";
+import Profile from "./Components/Profile/Profile";
+import Settings from "./Components/Settings/Settings";
 
 // import React react dom
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -27,6 +29,14 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/settings",
+    element: <Settings />,
   },
   {
     path: "/recovery",

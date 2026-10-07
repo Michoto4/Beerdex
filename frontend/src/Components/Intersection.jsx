@@ -1,28 +1,39 @@
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import { getUsername } from "../helper/helper";
+import Landing from './Landing/Landing';
 
-// check if user is logged in and decide where to redirect them
+export default function Intersection() {
+  const navigate = useNavigate();
+  const [checking, setChecking] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
 
-export default function Intersection(){
-    const navigate = useNavigate()
-    let checkToken = localStorage.getItem('token');
-    if(!checkToken){
-        useEffect(() => {
-            navigate('/login');
-        });
-    } else {
-        let username = getUsername();
-        if(!username){
-            useEffect(() => {
-                navigate('/login');
-            });
-        } else {
-            useEffect(() => {
-                navigate('/home');
-            });
-        }
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setChecking(false);
+      return;
     }
 
-    return <></>;
+    getUsername()
+      .then((user) => {
+        if (user && user.username) {
+          setIsAuth(true);
+          navigate('/home', { replace: true });
+        } else {
+          localStorage.removeItem('token');
+          setChecking(false);
+        }
+      })
+      .catch(() => {
+        localStorage.removeItem('token');
+        setChecking(false);
+      });
+  }, [navigate]);
+
+  if (checking || isAuth) {
+    return null;
+  }
+
+  return <Landing />;
 }

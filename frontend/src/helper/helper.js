@@ -132,6 +132,16 @@ export async function resetPassword({ username, password }) {
   }
 }
 
+/** change password when logged in */
+export async function changeUserPassword({ currentPassword, newPassword }) {
+  try {
+    const { data, status } = await axios.put('/api/changePassword', { currentPassword, newPassword });
+    return Promise.resolve({ data, status });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 /** create a new beer */
 export async function addBeer(beerProperties) {
   try {

@@ -1,15 +1,12 @@
-import React from "react";
-import styles from "./Home.module.scss";
+import React, { useState } from "react";
+import styles from "./BeerCard.module.scss";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import "../../translation/i18n";
 import { removeBeer, getUsername } from "../../helper/helper";
-
-// import FontAwesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
-// <BeerCard beerName={beer.beerName} beerVariant={beer.beerVariant} beerDescription={beer.beerDescription} beerRating={beer.beerRating} beerPhoto={beer.beerPhoto} />
 function BeerCard({
   beerName,
   beerVariant,
@@ -20,62 +17,123 @@ function BeerCard({
   beerVerticalStyle,
   beerHorizontalStyle,
   beerWidthStyle,
+  onDeleted,
 }) {
   const { t } = useTranslation();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
-  async function handleRemove(e) {
-    const beerNameRemove =
-      e.currentTarget.parentElement.children[1].firstChild.textContent;
-    const beerVariantRemove =
-      e.currentTarget.parentElement.children[1].firstChild.nextElementSibling
-        .textContent;
-    const getUsernamePromise = await getUsername();
-    const { username } = getUsernamePromise;
-    let removePromise = removeBeer({
-      beerName: beerNameRemove,
-      beerVariant: beerVariantRemove,
-      beerOwner: username,
-    });
-    toast.promise(removePromise, {
-      loading: t("toastLoadingBeerRemove"),
-      success: t("toastSuccessBeerRemove"),
-      error: t("toastErrorBeerRemove"),
-    });
+  // Check if legacy style offsets are active
+  const hasLegacyOffset =
+    beerVerticalStyle !== undefined &&
+    beerVerticalStyle !== "" &&
+    beerVerticalStyle !== "0";
+
+  const isLongDescription = (beerDescription || "").length > 90;
+
+  async function handleRemove() {
+    if (!window.confirm(t("confirmDelete"))) {
+      return;
+    }
+
+    try {
+      const user = await getUsername();
+      const username = user?.username;
+
+      const removePromise = removeBeer({
+        beerName,
+        beerVariant,
+        beerOwner: username,
+      });
+
+      await toast.promise(removePromise, {
+        loading: t("toastLoadingBeerRemove"),
+        success: t("toastSuccessBeerRemove"),
+        error: t("toastErrorBeerRemove"),
+      });
+
+      if (onDeleted) {
+        onDeleted();
+      }
+    } catch (err) {
+      toast.error(t("toastErrorBeerRemove"));
+    }
   }
 
   return (
-    <div className={styles.beerContainer}>
-      <div className={styles.beerImage}>
-        <label htmlFor="beerImage">
-          <img
-            style={{
-              bottom: `${beerVerticalStyle}%`,
-              left: `${beerHorizontalStyle}%`,
-              width: `${beerWidthStyle}%`,
-            }}
-            src={beerPhoto}
-            alt="beerImage"
-          />
-        </label>
+    <div className={styles.beerCard}>
+      <div className={styles.imageWrapper}>
+        {beerPhoto && !imgError ? (
+          hasLegacyOffset ? (
+            <img
+              className={styles.beerImgLegacy}
+              style={{
+                bottom: `${beerVerticalStyle}%`,
+                left: `${beerHorizontalStyle}%`,
+                width: `${beerWidthStyle || 100}%`,
+              }}
+              src={beerPhoto}
+              alt={beerName}
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <img
+              className={styles.beerImgModern}
+              src={beerPhoto}
+              alt={beerName}
+              onError={() => setImgError(true)}
+            />
+          )
+        ) : (
+          <span className={styles.placeholderIcon}>🍺</span>
+        )}
       </div>
-      <div className={styles.middleContainer}>
-        <h2>{beerName}</h2>
-        <h4>{beerVariant}</h4>
-        <hr />
-        <p>{beerDescription}</p>
+
+      <div className={styles.cardContent}>
+        <div className={styles.cardHeader}>
+          <div className={styles.titleArea}>
+            <h3 className={styles.beerTitle}>{beerName}</h3>
+            <div className={styles.beerVariant}>{beerVariant}</div>
+          </div>
+          <div className={styles.ratingPill}>
+            <span>⭐</span>
+            <span>{beerRating}/10</span>
+          </div>
+        </div>
+
+        {beerDate && <div className={styles.metaDate}>📅 {beerDate}</div>}
+
+        <p
+          className={`${styles.descriptionBox} ${
+            !isExpanded && isLongDescription ? styles.clamped : ""
+          }`}
+        >
+          {beerDescription}
+        </p>
+
+        {isLongDescription && (
+          <button
+            type="button"
+            className={styles.toggleTextBtn}
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            {isExpanded ? t("showLess") : t("showMore")}
+          </button>
+        )}
+
+        <div className={styles.cardFooter}>
+          <button
+            type="button"
+            className={styles.deleteBtn}
+            onClick={handleRemove}
+            title={t("confirmDelete")}
+          >
+            <FontAwesomeIcon icon={faTrashCan} />
+          </button>
+        </div>
       </div>
-      <div className={styles.rightContainer}>
-        <h5>{t("rating")}</h5>
-        <p>{beerRating}/10</p>
-        <h5>{t("date")}</h5>
-        <p>{beerDate}</p>
-      </div>
-      <button type="button" onClick={handleRemove}>
-        <FontAwesomeIcon icon={faTrashCan} />
-      </button>
     </div>
   );
 }
 
 export default BeerCard;
-

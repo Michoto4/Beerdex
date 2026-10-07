@@ -1,138 +1,194 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Home.module.scss";
-import toast, { Toaster } from "react-hot-toast";
-import convertToBase64 from "../../helper/convert";
-import { updateUser } from "../../helper/helper";
+import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/fetch.hook";
-import useFetchBeers from "../../hooks/fetchBeers.hook.js";
-import avatar from "../../assets/default.jpg";
-import BeerCard from "./BeerCard.jsx";
-import BeerPopup from "./BeerPopup.jsx";
+import useFetchBeers from "../../hooks/fetchBeers.hook";
+import defaultAvatar from "../../assets/default.jpg";
+import logoImg from "../../assets/logo.png";
+import BeerCard from "./BeerCard";
+import BeerBottomSheet from "./BeerBottomSheet";
+import UserDrawer from "../Navigation/UserDrawer";
 import { useTranslation } from "react-i18next";
 import "../../translation/i18n";
-import LanguageSelector from "../LanguageSelector/LanguageSelector";
 
-// import FontAwesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
   const { t } = useTranslation();
-  const [file, setFile] = useState(); // set uploaded avatar to 'file'
-  const [query, setQuery] = useState(); // set query for search beer in useFetchBeers hook
-  const [{ isLoading, apiData, serverError }] = useFetch(); // fetch user data from database
-  const [{ beerData, beerIsLoading, beerServerError }] = useFetchBeers(query); // fetch user BEERS from database
   const navigate = useNavigate();
-  const [buttonPopup, setButtonPopup] = useState(false);
 
-  if (isLoading) {
-    // kiedys tu zrobie kolko wczytywania czy cos takiego
-  }
+  const [searchVal, setSearchVal] = useState("");
+  const [query, setQuery] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  // avatar update handler function
-  const onUpload = async (e) => {
-    const base64 = await convertToBase64(e.target.files[0]);
-    setFile(base64);
-    let values = { profile: base64 || "" };
-    let updatePromise = updateUser(values);
-    toast.promise(updatePromise, {
-      loading: t("toastLoadingUpdate"),
-      success: t("toastSuccessUpdate"),
-      error: t("toastErrorUpdate"),
-    });
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const [{ isLoading, apiData, serverError }] = useFetch();
+  const [{ beerData, beerIsLoading }] = useFetchBeers(query);
+
+  // Check auth
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    if (serverError === "User doesn't exist") {
+      localStorage.removeItem("token");
+      navigate("/");
+    }
+  }, [serverError, navigate]);
+
+  const userLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
   };
 
-  async function submitSearchBeer(e) {
-    if (e.key == "Enter") {
-      const beerName = e.target.value;
-      setQuery(beerName);
+  const handleSearchChange = (e) => {
+    const val = e.target.value;
+    setSearchVal(val);
+    if (val.trim() === "") {
+      setQuery("");
     }
-  }
+  };
 
-  // logout handler function
-  function userLogout() {
-    localStorage.removeItem("token");
-    navigate("/");
-  }
+  const handleSearchKeyDown = (e) => {
+    if (e.key === "Enter") {
+      setQuery(searchVal.trim());
+    }
+  };
 
-  // check if user is logged in (by checking if there is a jwt token saved in their browser's local storage)
-  // if isn't then block access by navigating to '/' page
-  let checkToken = localStorage.getItem("token");
-  if (!checkToken) {
-    useEffect(() => {
-      navigate("/");
-    });
-  }
+  const handleClearSearch = () => {
+    setSearchVal("");
+    setQuery("");
+  };
 
-  // if fetch hook returns error because it didn't find the user in database - remove token and log them out
-  if (serverError === "User doesn't exist") {
-    localStorage.removeItem("token");
-    navigate("/");
-  }
+  const handleRefresh = () => {
+    // Trigger query update to refetch
+    setQuery((prev) => (prev === "" ? " " : ""));
+    setTimeout(() => setQuery(""), 50);
+  };
 
   return (
-    <div className={styles.container}>
-      <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <LanguageSelector></LanguageSelector>
-      <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-        <div className={styles.topBar}>
-          <h2>
-            {t("welcome")} <b>{apiData?.username || t("unknown")}</b>
-          </h2>
-          <div className={styles.profileContainer}>
-            <button type="button" onClick={userLogout}>
-              {t("logout")}
-            </button>
-            <label htmlFor="profile">
-              <img src={file || apiData?.profile || avatar} alt="avatar" />
-            </label>
-            <input
-              onChange={onUpload}
-              type="file"
-              id="profile"
-              name="profile"
-            />
+    <div className={styles.appWrapper}>
+      <Toaster position="top-center" reverseOrder={false} />
+
+      <div className={styles.mainContainer}>
+        {/* Top Header Bar */}
+        <header className={styles.topBar}>
+          <div className={styles.brandGroup}>
+            <div className={styles.brandTitle}>
+              <img src={logoImg} alt="Beerdex Logo" className={styles.brandLogo} />
+              <span>Beerdex</span>
+            </div>
+            <div className={styles.greeting}>
+              {t("welcome")} <b>{apiData?.username || t("unknown")}</b>
+            </div>
           </div>
-        </div>
-        <hr />
-        <input
-          className={styles.beerBrowseInput}
-          type="text"
-          placeholder={t("searchBeer")}
-          onKeyDown={submitSearchBeer}
-        />
-        <div className={styles.appContainer}>
-          {beerData?.map((beer) => (
-            <BeerCard
-              key={beer._id}
-              beerName={beer.beerName}
-              beerVariant={beer.beerVariant}
-              beerDescription={beer.beerDescription}
-              beerRating={beer.beerRating}
-              beerPhoto={beer.beerPhoto}
-              beerDate={beer.beerDate}
-              beerVerticalStyle={beer.beerVerticalStyle}
-              beerHorizontalStyle={beer.beerHorizontalStyle}
-              beerWidthStyle={beer.beerWidthStyle}
+
+          <button
+            type="button"
+            className={styles.avatarBtn}
+            onClick={() => setIsDrawerOpen(true)}
+            aria-label="Open profile menu"
+          >
+            <img
+              src={apiData?.profile || defaultAvatar}
+              alt="Avatar"
+              className={styles.avatarImg}
             />
-          ))}
+          </button>
+        </header>
+
+        {/* Search Bar */}
+        <div className={styles.searchSection}>
+          <FontAwesomeIcon icon={faSearch} className={styles.searchIcon} />
+          <input
+            type="text"
+            className={styles.searchInput}
+            placeholder={t("searchBeer")}
+            value={searchVal}
+            onChange={handleSearchChange}
+            onKeyDown={handleSearchKeyDown}
+          />
+          {searchVal && (
+            <button
+              type="button"
+              className={styles.clearBtn}
+              onClick={handleClearSearch}
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+          )}
         </div>
+
+        {/* Beers Feed */}
+        <div className={styles.beersFeed}>
+          {beerIsLoading ? (
+            <div className={styles.loadingState}>
+              <p>Ładowanie Twojej kolekcji... 🍺</p>
+            </div>
+          ) : beerData && beerData.length > 0 ? (
+            beerData.map((beer) => (
+              <BeerCard
+                key={beer._id}
+                beerName={beer.beerName}
+                beerVariant={beer.beerVariant}
+                beerDescription={beer.beerDescription}
+                beerRating={beer.beerRating}
+                beerPhoto={beer.beerPhoto}
+                beerDate={beer.beerDate}
+                beerVerticalStyle={beer.beerVerticalStyle}
+                beerHorizontalStyle={beer.beerHorizontalStyle}
+                beerWidthStyle={beer.beerWidthStyle}
+                onDeleted={handleRefresh}
+              />
+            ))
+          ) : (
+            <div className={styles.emptyState}>
+              <div className={styles.emptyIcon}>🍻</div>
+              <h3>{t("noBeersYet")}</h3>
+              <p>
+                {query
+                  ? t("toastSearchBeerError")
+                  : "Twój Beerdex jest pusty. Złap swoje pierwsze piwo, klikając zielony przycisk plusa poniżej!"}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Floating Action Button (FAB) */}
         <button
           type="button"
-          className={styles.addBeer}
-          onClick={() => setButtonPopup(true)}
+          className={styles.fabButton}
+          onClick={() => setIsSheetOpen(true)}
+          aria-label="Add Beer"
         >
           <FontAwesomeIcon icon={faPlus} />
         </button>
-        <BeerPopup
-          trigger={buttonPopup}
-          setTrigger={setButtonPopup}
-        ></BeerPopup>
-      </form>
+      </div>
+
+      {/* User Navigation Drawer */}
+      <UserDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        user={apiData}
+        onLogout={userLogout}
+      />
+
+      {/* Bottom Sheet for adding beer */}
+      <BeerBottomSheet
+        isOpen={isSheetOpen}
+        onClose={() => setIsSheetOpen(false)}
+        onBeerAdded={handleRefresh}
+      />
     </div>
   );
 }
 
 export default Home;
-
