@@ -19,6 +19,7 @@ Możesz tu dodać wszystkie piwa jakie pijesz razem z ich zdjęciem, oceną i op
 
 ## CHANGELOG
 
+- [08.10.2026] Added sorting feature, pagination/infinite-scroll and sticky top bar
 - [07.10.2026] Complete redesign of the website for PC and mobile and improved current features
 - [06.10.2026] Refactored the code - fixed some security issues and improved other functions
 - [28.01.2026] Combined frontend and backend into one repo
@@ -34,7 +35,7 @@ Możesz tu dodać wszystkie piwa jakie pijesz razem z ich zdjęciem, oceną i op
 
 - make mobile app of Beerdex
 - make some improvements to website design (DONE)
-- add more functions
+- add more functions (DONE)
 - improve current functions of the app (DONE)
 - improve fetching beers from database to make it faster and better in general (DONE)
 
