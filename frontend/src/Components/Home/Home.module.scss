@@ -7,29 +7,34 @@
   position: relative;
 }
 
-.mainContainer {
+/* Full-width Sticky Top Header */
+.stickyHeader {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 40;
   width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  padding: 0 16px 80px;
+  background-color: rgba(11, 15, 25, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+  .stickyHeaderInner {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 12px 16px 14px 16px;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .topBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 0;
-  position: sticky;
-  top: 0;
-  background-color: rgba(11, 15, 25, 0.9);
-  backdrop-filter: blur(12px);
-  z-index: 30;
-  border-bottom: 1px solid var(--border-subtle);
-  margin-bottom: 16px;
+  padding-bottom: 12px;
 
   .brandGroup {
     display: flex;
@@ -89,8 +94,15 @@
   }
 }
 
+.searchControlsRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
 .searchSection {
-  margin-bottom: 18px;
+  flex: 1;
   position: relative;
 
   .searchIcon {
@@ -105,11 +117,11 @@
 
   .searchInput {
     width: 100%;
-    height: 48px;
+    height: 46px;
     background-color: var(--bg-secondary);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
-    padding: 0 44px 0 44px;
+    padding: 0 40px 0 44px;
     font-size: 0.95rem;
     color: var(--text-main);
     transition: all 0.2s ease;
@@ -128,15 +140,18 @@
 
   .clearBtn {
     position: absolute;
-    right: 14px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
     color: var(--text-dim);
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
     padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
       color: var(--text-main);
@@ -144,11 +159,232 @@
   }
 }
 
+.sortWrapper {
+  position: relative;
+  flex-shrink: 0;
+
+  .sortBtn {
+    height: 46px;
+    min-width: 46px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--bg-surface-hover);
+      color: var(--text-main);
+      border-color: var(--accent-blue);
+    }
+
+    &.sortBtnActive {
+      background-color: var(--bg-surface);
+      border-color: var(--accent-blue);
+      color: var(--accent-cyan);
+      box-shadow: 0 0 14px rgba(88, 101, 242, 0.3);
+    }
+
+    &.sortBtnModified {
+      border-color: rgba(56, 189, 248, 0.5);
+      color: var(--accent-cyan);
+    }
+
+    .sortBtnText {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .activeDot {
+      width: 7px;
+      height: 7px;
+      background-color: var(--accent-cyan);
+      border-radius: 50%;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      box-shadow: 0 0 6px var(--accent-cyan);
+    }
+  }
+
+  .sortDropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 260px;
+    background: linear-gradient(175deg, #182235 0%, #101625 100%);
+    border: 1px solid rgba(88, 101, 242, 0.35);
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(88, 101, 242, 0.15);
+    padding: 10px 8px;
+    z-index: 60;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    animation: dropdownFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+    .sortHeader {
+      padding: 6px 10px 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-dim);
+    }
+
+    .sortGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .sortGroupTitle {
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .sortDivider {
+      height: 1px;
+      background-color: var(--border-subtle);
+      margin: 6px 4px;
+    }
+
+    .sortOptionItem {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: left;
+
+      .optionLabel {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .optionIcon {
+          font-size: 0.85rem;
+          width: 16px;
+          text-align: center;
+          opacity: 0.75;
+        }
+      }
+
+      .checkIcon {
+        font-size: 0.82rem;
+        color: var(--accent-cyan);
+      }
+
+      &:hover {
+        background-color: var(--bg-surface-hover);
+        color: var(--text-main);
+
+        .optionIcon {
+          opacity: 1;
+          color: var(--accent-cyan);
+        }
+      }
+
+      &.selected {
+        background-color: rgba(56, 189, 248, 0.12);
+        color: #ffffff;
+        font-weight: 600;
+
+        .optionIcon {
+          opacity: 1;
+          color: var(--accent-cyan);
+        }
+      }
+    }
+  }
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.mainContainer {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 16px 16px 80px 16px;
+}
+
 .beersFeed {
   display: flex;
   flex-direction: column;
   gap: 12px;
   flex: 1;
+}
+
+.sentinel {
+  width: 100%;
+  height: 20px;
+  pointer-events: none;
+}
+
+.loadingMore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px 0 12px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.loadingSpinner {
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(88, 101, 242, 0.25);
+  border-top-color: var(--accent-cyan);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.endOfFeed {
+  text-align: center;
+  padding: 28px 0 16px;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  letter-spacing: 0.3px;
+  opacity: 0.8;
 }
 
 .emptyState {
@@ -182,9 +418,14 @@
 
 .loadingState {
   text-align: center;
-  padding: 40px;
+  padding: 50px 20px;
   color: var(--text-muted);
   font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
 }
 
 .fabButton {
@@ -217,8 +458,29 @@
 }
 
 @media (max-width: 600px) {
+  .stickyHeader {
+    .stickyHeaderInner {
+      padding: 10px 12px 12px 12px;
+    }
+  }
+
   .mainContainer {
-    padding: 0 12px 90px;
+    padding: 12px 12px 90px 12px;
+  }
+
+  .sortWrapper {
+    .sortBtn {
+      padding: 0 12px;
+
+      .sortBtnText {
+        display: none;
+      }
+    }
+
+    .sortDropdown {
+      width: 250px;
+      right: 0;
+    }
   }
 
   .fabButton {

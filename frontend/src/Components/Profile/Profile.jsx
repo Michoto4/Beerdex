@@ -95,9 +95,10 @@ function Profile() {
 
     const avg = (sumRating / total).toFixed(1);
 
-    // Oldest and newest (list order or beerDate)
-    const oldest = list[0];
-    const newest = list[list.length - 1];
+    // Oldest and newest (by database _id timestamp order)
+    const sortedByDate = [...list].sort((a, b) => (a._id > b._id ? 1 : -1));
+    const oldest = sortedByDate[0];
+    const newest = sortedByDate[sortedByDate.length - 1];
 
     const brandCounts = Object.entries(brandMap)
       .map(([name, count]) => ({ name, count }))

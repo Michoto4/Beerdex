@@ -353,7 +353,7 @@ export async function createBeer(req, res) {
 }
 
 /** GET: http://localhost:8080/api/getBeers/example123 
- * Get all user beers from database
+ * Get user beers from database with optional pagination and sorting
 */
 export async function getBeers(req, res) {
     const username = req.user?.username || req.params.username;
@@ -361,9 +361,71 @@ export async function getBeers(req, res) {
     try {
         if (!username) return res.status(400).send({ error: "Invalid username" });
 
-        const beers = await BeerModel.find({ beerOwner: username });
-        return res.status(201).send(beers || []);
+        // If 'page' query param is NOT provided, return all beers (backward compatibility for Profile & scripts)
+        if (!req.query.page) {
+            const beers = await BeerModel.find({ beerOwner: username }).sort({ _id: -1 });
+            return res.status(201).send(beers || []);
+        }
+
+        const page = Math.max(1, parseInt(req.query.page) || 1);
+        const limit = Math.max(1, parseInt(req.query.limit) || 12);
+        const skip = (page - 1) * limit;
+        const sortMode = req.query.sort || "date_desc";
+
+        const match = { beerOwner: username };
+        const total = await BeerModel.countDocuments(match);
+
+        let beers = [];
+        if (sortMode === "rating_desc" || sortMode === "rating_asc") {
+            const sortDir = sortMode === "rating_desc" ? -1 : 1;
+            beers = await BeerModel.aggregate([
+                { $match: match },
+                {
+                    $addFields: {
+                        numericRating: {
+                            $convert: {
+                                input: "$beerRating",
+                                to: "double",
+                                onError: 0,
+                                onNull: 0
+                            }
+                        }
+                    }
+                },
+                { $sort: { numericRating: sortDir, _id: -1 } },
+                { $skip: skip },
+                { $limit: limit }
+            ]);
+        } else if (sortMode === "name_asc" || sortMode === "name_desc") {
+            const sortDir = sortMode === "name_asc" ? 1 : -1;
+            beers = await BeerModel.find(match)
+                .collation({ locale: "pl", strength: 1 })
+                .sort({ beerName: sortDir, beerVariant: sortDir })
+                .skip(skip)
+                .limit(limit);
+        } else if (sortMode === "date_asc") {
+            beers = await BeerModel.find(match)
+                .sort({ _id: 1 })
+                .skip(skip)
+                .limit(limit);
+        } else {
+            // date_desc (default)
+            beers = await BeerModel.find(match)
+                .sort({ _id: -1 })
+                .skip(skip)
+                .limit(limit);
+        }
+
+        return res.status(201).send({
+            beers: beers || [],
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit),
+            hasMore: page * limit < total
+        });
     } catch (error) {
+        console.error("getBeers error:", error);
         return res.status(500).send({ error: "Cannot find user beers" });
     }
 }
@@ -390,8 +452,8 @@ export async function removeBeer(req, res) {
     }
 }
 
-/** GET: http://localhost:8080/api/searchBeers/exampleUsername/exampleBeerName 
- * search for a beer in database
+/** GET: http://localhost:8080/api/searchBeer/exampleUsername/exampleBeerName 
+ * search for a beer in database with optional pagination and sorting
 */
 export async function searchBeers(req, res) {
     const username = req.user?.username || req.params.username;
@@ -400,18 +462,79 @@ export async function searchBeers(req, res) {
     try {
         if (!username || !beerSearch) return res.status(400).send({ error: "username or beerSearch is empty" });
 
-        // Database-level filtering for fast and case-insensitive search
-        const beers = await BeerModel.find({
+        const match = {
             beerOwner: username,
             $or: [
                 { beerName: { $regex: beerSearch, $options: 'i' } },
                 { beerVariant: { $regex: beerSearch, $options: 'i' } },
                 { beerDescription: { $regex: beerSearch, $options: 'i' } }
             ]
-        });
+        };
 
-        return res.status(201).send(beers);
+        // If 'page' query param is NOT provided, return all search results
+        if (!req.query.page) {
+            const beers = await BeerModel.find(match).sort({ _id: -1 });
+            return res.status(201).send(beers || []);
+        }
+
+        const page = Math.max(1, parseInt(req.query.page) || 1);
+        const limit = Math.max(1, parseInt(req.query.limit) || 12);
+        const skip = (page - 1) * limit;
+        const sortMode = req.query.sort || "date_desc";
+
+        const total = await BeerModel.countDocuments(match);
+
+        let beers = [];
+        if (sortMode === "rating_desc" || sortMode === "rating_asc") {
+            const sortDir = sortMode === "rating_desc" ? -1 : 1;
+            beers = await BeerModel.aggregate([
+                { $match: match },
+                {
+                    $addFields: {
+                        numericRating: {
+                            $convert: {
+                                input: "$beerRating",
+                                to: "double",
+                                onError: 0,
+                                onNull: 0
+                            }
+                        }
+                    }
+                },
+                { $sort: { numericRating: sortDir, _id: -1 } },
+                { $skip: skip },
+                { $limit: limit }
+            ]);
+        } else if (sortMode === "name_asc" || sortMode === "name_desc") {
+            const sortDir = sortMode === "name_asc" ? 1 : -1;
+            beers = await BeerModel.find(match)
+                .collation({ locale: "pl", strength: 1 })
+                .sort({ beerName: sortDir, beerVariant: sortDir })
+                .skip(skip)
+                .limit(limit);
+        } else if (sortMode === "date_asc") {
+            beers = await BeerModel.find(match)
+                .sort({ _id: 1 })
+                .skip(skip)
+                .limit(limit);
+        } else {
+            // date_desc (default)
+            beers = await BeerModel.find(match)
+                .sort({ _id: -1 })
+                .skip(skip)
+                .limit(limit);
+        }
+
+        return res.status(201).send({
+            beers: beers || [],
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit),
+            hasMore: page * limit < total
+        });
     } catch (error) {
+        console.error("searchBeers error:", error);
         return res.status(500).send({ error: "An error occurred during search" });
     }
 }

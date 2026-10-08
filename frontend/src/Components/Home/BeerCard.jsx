@@ -18,6 +18,7 @@ function BeerCard({
   beerHorizontalStyle,
   beerWidthStyle,
   onDeleted,
+  style,
 }) {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -61,7 +62,7 @@ function BeerCard({
   }
 
   return (
-    <div className={styles.beerCard}>
+    <div className={styles.beerCard} style={style}>
       <div className={styles.imageWrapper}>
         {beerPhoto && !imgError ? (
           hasLegacyOffset ? (

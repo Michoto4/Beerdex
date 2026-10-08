@@ -1,3 +1,14 @@
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .beerCard {
   background: linear-gradient(145deg, rgba(22, 31, 48, 0.85), rgba(15, 21, 33, 0.95));
   border: 1px solid var(--border-subtle);
@@ -9,6 +20,7 @@
   transition: all 0.25s ease;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
   margin-bottom: 14px;
+  animation: cardFadeIn 0.35s ease-out backwards;
 
   &:hover {
     border-color: rgba(88, 101, 242, 0.35);
