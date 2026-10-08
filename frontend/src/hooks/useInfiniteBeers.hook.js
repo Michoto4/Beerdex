@@ -109,6 +109,19 @@ export default function useInfiniteBeers(query, sortOption, refreshKey) {
     fetchPage(1, true);
   }, [fetchPage]);
 
+  // Optimistically update a beer in local state
+  const updateLocalBeer = useCallback((updatedBeer) => {
+    setBeers((prev) =>
+      prev.map((b) => (b._id === updatedBeer._id ? { ...b, ...updatedBeer } : b))
+    );
+  }, []);
+
+  // Optimistically remove a beer from local state
+  const removeLocalBeer = useCallback((beerId) => {
+    setBeers((prev) => prev.filter((b) => b._id !== beerId));
+    setTotal((prev) => Math.max(0, prev - 1));
+  }, []);
+
   return {
     beers,
     total,
@@ -119,5 +132,7 @@ export default function useInfiniteBeers(query, sortOption, refreshKey) {
     error,
     loadMore,
     refetch,
+    updateLocalBeer,
+    removeLocalBeer,
   };
 }

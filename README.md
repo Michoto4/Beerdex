@@ -19,6 +19,7 @@ Możesz tu dodać wszystkie piwa jakie pijesz razem z ich zdjęciem, oceną i op
 
 ## CHANGELOG
 
+- [08.10.2026] Added beer editing feature (bottom sheet edit window, photo change & crop, moved delete action to edit sheet)
 - [08.10.2026] Added sorting feature, pagination/infinite-scroll and sticky top bar
 - [07.10.2026] Complete redesign of the website for PC and mobile and improved current features
 - [06.10.2026] Refactored the code - fixed some security issues and improved other functions

@@ -152,12 +152,23 @@ export async function addBeer(beerProperties) {
   }
 }
 
-/** remove specific beer */
-export async function removeBeer({ beerName, beerVariant, beerOwner }) {
+/** update existing beer */
+export async function updateBeer(beerProperties) {
   try {
-    const { data, status } = await axios.put(`/api/removeBeer`, { beerName, beerVariant, beerOwner });
+    const { data, status } = await axios.put(`/api/updateBeer`, beerProperties);
+    return Promise.resolve({ data, status });
+  } catch (error) {
+    return Promise.reject({ error });
+  }
+}
+
+/** remove specific beer */
+export async function removeBeer({ beerId, _id, beerName, beerVariant, beerOwner }) {
+  try {
+    const { data, status } = await axios.put(`/api/removeBeer`, { beerId, _id, beerName, beerVariant, beerOwner });
     return Promise.resolve({ data: data, status: status });
   } catch (error) {
     return Promise.reject({ error })
   }
 }
+

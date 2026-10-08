@@ -28,6 +28,7 @@ router.route('/searchBeer/:username/:beerSearch').get(Auth, controller.searchBee
 router.route('/updateuser').put(Auth, controller.updateUser); // used to update the user profile (protected)
 router.route('/changePassword').put(Auth, controller.changePassword); // used to change password while logged in (protected)
 router.route('/resetPassword').put(controller.verifyUser, controller.resetPassword); // used to reset password
+router.route('/updateBeer').put(Auth, controller.updateBeer); // used to update existing beer (protected)
 router.route('/removeBeer').put(Auth, controller.removeBeer); // used to remove the beer from database (protected)
 
 // TEST 

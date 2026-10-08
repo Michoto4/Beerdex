@@ -40,6 +40,7 @@ function Home() {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [editingBeer, setEditingBeer] = useState(null);
 
   const [{ apiData, serverError }] = useFetch();
   const {
@@ -50,6 +51,8 @@ function Home() {
     isLoadingMore,
     loadMore,
     refetch,
+    updateLocalBeer,
+    removeLocalBeer,
   } = useInfiniteBeers(query, sortOption, refreshKey);
 
   // Check auth
@@ -141,6 +144,21 @@ function Home() {
 
   const handleRefresh = () => {
     setRefreshKey((prev) => prev + 1);
+  };
+
+  const handleOpenAdd = () => {
+    setEditingBeer(null);
+    setIsSheetOpen(true);
+  };
+
+  const handleOpenEdit = (beer) => {
+    setEditingBeer(beer);
+    setIsSheetOpen(true);
+  };
+
+  const handleCloseSheet = () => {
+    setIsSheetOpen(false);
+    setEditingBeer(null);
   };
 
   return (
@@ -377,7 +395,7 @@ function Home() {
                 beerVerticalStyle={beer.beerVerticalStyle}
                 beerHorizontalStyle={beer.beerHorizontalStyle}
                 beerWidthStyle={beer.beerWidthStyle}
-                onDeleted={handleRefresh}
+                onEdit={() => handleOpenEdit(beer)}
                 style={{ animationDelay: `${Math.min((index % 12) * 35, 350)}ms` }}
               />
             ))
@@ -416,7 +434,7 @@ function Home() {
         <button
           type="button"
           className={styles.fabButton}
-          onClick={() => setIsSheetOpen(true)}
+          onClick={handleOpenAdd}
           aria-label="Add Beer"
         >
           <FontAwesomeIcon icon={faPlus} />
@@ -431,11 +449,18 @@ function Home() {
         onLogout={userLogout}
       />
 
-      {/* Bottom Sheet for adding beer */}
+      {/* Bottom Sheet for adding & editing beer */}
       <BeerBottomSheet
         isOpen={isSheetOpen}
-        onClose={() => setIsSheetOpen(false)}
+        onClose={handleCloseSheet}
+        beer={editingBeer}
         onBeerAdded={handleRefresh}
+        onBeerUpdated={(updated) => {
+          updateLocalBeer(updated);
+        }}
+        onBeerDeleted={(deletedId) => {
+          removeLocalBeer(deletedId);
+        }}
       />
     </div>
   );

@@ -430,25 +430,119 @@ export async function getBeers(req, res) {
     }
 }
 
+/** PUT: http://localhost:8080/api/updateBeer
+ * Update an existing beer in database for authenticated user
+ */
+export async function updateBeer(req, res) {
+    const { beerId, _id, beerName, beerVariant, beerDescription, beerRating, beerPhoto, beerDate } = req.body;
+    const targetId = beerId || _id;
+    const beerOwner = req.user?.username;
+
+    try {
+        if (!beerOwner) {
+            return res.status(401).send({ error: "Unauthorized" });
+        }
+
+        if (!targetId) {
+            return res.status(400).send({ error: "Beer ID is required" });
+        }
+
+        if (!beerName || !beerVariant || !beerDescription || beerRating === undefined || beerRating === "") {
+            return res.status(400).send({ error: "Required fields cannot be empty" });
+        }
+
+        const beer = await BeerModel.findOne({ _id: targetId, beerOwner });
+        if (!beer) {
+            return res.status(404).send({ error: "Beer not found or not owned by user" });
+        }
+
+        let finalPhotoUrl = beer.beerPhoto; // Keep existing photo by default
+        let photoChanged = false;
+
+        if (beerPhoto === "") {
+            // User explicitly cleared the photo
+            finalPhotoUrl = "";
+            photoChanged = true;
+        } else if (beerPhoto && typeof beerPhoto === "string" && beerPhoto !== beer.beerPhoto) {
+            photoChanged = true;
+            if (beerPhoto.startsWith("http://") || beerPhoto.startsWith("https://")) {
+                finalPhotoUrl = beerPhoto;
+            } else if (ENV.CLOUDINARY_CLOUD_NAME && ENV.CLOUDINARY_API_KEY && ENV.CLOUDINARY_API_SECRET) {
+                try {
+                    const uploadRes = await cloudinary.uploader.upload(beerPhoto, {
+                        folder: "beerdex/beers",
+                        resource_type: "image",
+                    });
+                    finalPhotoUrl = uploadRes.secure_url;
+                } catch (uploadErr) {
+                    console.error("Cloudinary beer update upload error:", uploadErr);
+                    finalPhotoUrl = beerPhoto;
+                }
+            } else {
+                finalPhotoUrl = beerPhoto;
+            }
+        }
+
+        beer.beerName = beerName;
+        beer.beerVariant = beerVariant;
+        beer.beerDescription = beerDescription;
+        beer.beerRating = String(beerRating);
+        beer.beerPhoto = finalPhotoUrl;
+
+        if (beerDate) {
+            beer.beerDate = beerDate;
+        }
+
+        // If a new photo was uploaded, normalize styles
+        if (photoChanged && finalPhotoUrl) {
+            beer.beerVerticalStyle = "0";
+            beer.beerHorizontalStyle = "0";
+            beer.beerWidthStyle = "100";
+        }
+
+        await beer.save();
+        return res.status(200).send({ msg: "Beer updated successfully!", beer });
+    } catch (error) {
+        console.error("updateBeer error:", error);
+        return res.status(500).send({ error: "Internal server error" });
+    }
+}
+
 /** PUT: http://localhost:8080/api/removeBeer
- * beerName
- * beerVariant
+ * beerId / _id OR beerName + beerVariant
  * 
  * removes specific beer from database for authenticated user
  */
 export async function removeBeer(req, res) {
-    const { beerName, beerVariant } = req.body;
+    const { beerId, _id, beerName, beerVariant } = req.body;
     const beerOwner = req.user?.username || req.body.beerOwner;
 
-    if (beerName && beerVariant && beerOwner) {
-        const remove = await BeerModel.deleteOne({ beerName, beerVariant, beerOwner });
+    try {
+        if (!beerOwner) {
+            return res.status(401).send({ error: "Unauthorized" });
+        }
+
+        const targetId = beerId || _id;
+        let query = { beerOwner };
+
+        if (targetId) {
+            query._id = targetId;
+        } else if (beerName && beerVariant) {
+            query.beerName = beerName;
+            query.beerVariant = beerVariant;
+        } else {
+            return res.status(400).send({ error: "Some information is missing" });
+        }
+
+        const remove = await BeerModel.deleteOne(query);
         if (!remove || remove.deletedCount === 0) {
             return res.status(404).send({ error: "Beer not found or invalid" });
         } else {
             return res.status(200).send({ msg: "Beer removed successfully!" });
         }
-    } else {
-        return res.status(400).send({ error: "Some information is missing" });
+    } catch (error) {
+        console.error("removeBeer error:", error);
+        return res.status(500).send({ error: "Internal server error" });
     }
 }
 

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import styles from "./BeerCard.module.scss";
-import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import "../../translation/i18n";
-import { removeBeer, getUsername } from "../../helper/helper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 function BeerCard({
   beerName,
@@ -17,7 +15,7 @@ function BeerCard({
   beerVerticalStyle,
   beerHorizontalStyle,
   beerWidthStyle,
-  onDeleted,
+  onEdit,
   style,
 }) {
   const { t } = useTranslation();
@@ -31,35 +29,6 @@ function BeerCard({
     beerVerticalStyle !== "0";
 
   const isLongDescription = (beerDescription || "").length > 90;
-
-  async function handleRemove() {
-    if (!window.confirm(t("confirmDelete"))) {
-      return;
-    }
-
-    try {
-      const user = await getUsername();
-      const username = user?.username;
-
-      const removePromise = removeBeer({
-        beerName,
-        beerVariant,
-        beerOwner: username,
-      });
-
-      await toast.promise(removePromise, {
-        loading: t("toastLoadingBeerRemove"),
-        success: t("toastSuccessBeerRemove"),
-        error: t("toastErrorBeerRemove"),
-      });
-
-      if (onDeleted) {
-        onDeleted();
-      }
-    } catch (err) {
-      toast.error(t("toastErrorBeerRemove"));
-    }
-  }
 
   return (
     <div className={styles.beerCard} style={style}>
@@ -125,11 +94,13 @@ function BeerCard({
         <div className={styles.cardFooter}>
           <button
             type="button"
-            className={styles.deleteBtn}
-            onClick={handleRemove}
-            title={t("confirmDelete")}
+            className={styles.editBtn}
+            onClick={onEdit}
+            title={t("editBeerTitle")}
+            aria-label={t("editBeerTitle")}
           >
-            <FontAwesomeIcon icon={faTrashCan} />
+            <FontAwesomeIcon icon={faPenToSquare} />
+            <span className={styles.editBtnText}>{t("edit")}</span>
           </button>
         </div>
       </div>

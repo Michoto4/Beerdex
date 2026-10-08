@@ -162,23 +162,35 @@
       margin-top: auto;
       padding-top: 8px;
 
-      .deleteBtn {
-        background: transparent;
-        border: 1px solid transparent;
-        color: var(--text-dim);
-        padding: 6px 10px;
+      .editBtn {
+        background: rgba(88, 101, 242, 0.12);
+        border: 1px solid rgba(88, 101, 242, 0.28);
+        color: #818cf8;
+        padding: 5px 12px;
         border-radius: var(--radius-sm);
         cursor: pointer;
-        font-size: 0.85rem;
+        font-size: 0.82rem;
+        font-weight: 500;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        transition: all 0.2s;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+        .editBtnText {
+          font-weight: 600;
+          font-size: 0.8rem;
+        }
 
         &:hover {
           color: #ffffff;
-          background-color: rgba(239, 68, 68, 0.2);
-          border-color: rgba(239, 68, 68, 0.4);
+          background-color: var(--accent-blue);
+          border-color: var(--accent-blue-hover);
+          box-shadow: 0 0 14px rgba(88, 101, 242, 0.35);
+          transform: translateY(-1px);
+        }
+
+        &:active {
+          transform: translateY(0);
         }
       }
     }

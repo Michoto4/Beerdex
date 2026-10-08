@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import styles from "./BeerBottomSheet.module.scss";
 import toast from "react-hot-toast";
 import { useFormik } from "formik";
@@ -6,21 +6,48 @@ import Cropper from "react-easy-crop";
 import { useTranslation } from "react-i18next";
 import "../../translation/i18n";
 import useFetch from "../../hooks/fetch.hook";
-import { addBeer } from "../../helper/helper";
+import { addBeer, updateBeer, removeBeer, getUsername } from "../../helper/helper";
 import { addBeerValidate } from "../../helper/validate";
 import { getCroppedImg } from "../../helper/cropImage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
-function BeerBottomSheet({ isOpen, onClose, onBeerAdded }) {
+function BeerBottomSheet({
+  isOpen,
+  onClose,
+  beer = null,
+  onBeerAdded,
+  onBeerUpdated,
+  onBeerDeleted,
+}) {
   const { t } = useTranslation();
   const [{ apiData }] = useFetch();
+  const isEditMode = Boolean(beer);
 
-  // Cropper states
+  // Cropper & photo states
   const [imageSrc, setImageSrc] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [isCropping, setIsCropping] = useState(false);
   const [finalImage, setFinalImage] = useState(null);
+
+  // Synchronize state when sheet opens or beer changes
+  useEffect(() => {
+    if (isOpen) {
+      if (beer) {
+        setFinalImage(beer.beerPhoto || null);
+        setImageSrc(null);
+        setIsCropping(false);
+      } else {
+        setFinalImage(null);
+        setImageSrc(null);
+        setIsCropping(false);
+      }
+      setCrop({ x: 0, y: 0 });
+      setZoom(1);
+    }
+  }, [isOpen, beer]);
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -33,7 +60,6 @@ function BeerBottomSheet({ isOpen, onClose, onBeerAdded }) {
       reader.addEventListener("load", () => {
         setImageSrc(reader.result);
         setIsCropping(true);
-        setFinalImage(null);
       });
       reader.readAsDataURL(file);
     }
@@ -50,6 +76,20 @@ function BeerBottomSheet({ isOpen, onClose, onBeerAdded }) {
     }
   };
 
+  const handleCancelCrop = () => {
+    setIsCropping(false);
+    // If we already had a photo before, keep it; otherwise reset imageSrc
+    if (!finalImage) {
+      setImageSrc(null);
+    }
+  };
+
+  const handleRemovePhoto = () => {
+    setFinalImage("");
+    setImageSrc(null);
+    setIsCropping(false);
+  };
+
   const resetAll = () => {
     setImageSrc(null);
     setFinalImage(null);
@@ -59,47 +99,126 @@ function BeerBottomSheet({ isOpen, onClose, onBeerAdded }) {
   };
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      beerName: "",
-      beerVariant: "",
-      beerRating: "7",
-      beerDescription: "",
+      beerName: beer?.beerName || "",
+      beerVariant: beer?.beerVariant || "",
+      beerRating:
+        beer?.beerRating !== undefined && beer?.beerRating !== null
+          ? String(beer.beerRating)
+          : "7",
+      beerDescription: beer?.beerDescription || "",
+      beerDate: beer?.beerDate || "",
     },
-    validate: addBeerValidate,
+    validate: (values) => {
+      const errors = addBeerValidate(values) || {};
+      if (!values.beerName || !values.beerName.trim()) {
+        errors.beerName = t("beerName");
+      }
+      if (!values.beerVariant || !values.beerVariant.trim()) {
+        errors.beerVariant = t("beerVariant");
+      }
+      return errors;
+    },
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values, { resetForm }) => {
       try {
-        const payload = {
-          beerName: values.beerName,
-          beerVariant: values.beerVariant,
-          beerRating: values.beerRating,
-          beerDescription: values.beerDescription,
-          beerPhoto: finalImage || imageSrc || "",
-          beerOwner: apiData?.username,
-          beerVerticalStyle: "0",
-          beerHorizontalStyle: "0",
-          beerWidthStyle: "100",
-        };
+        if (!values.beerName?.trim() || !values.beerVariant?.trim()) {
+          toast.error(t("toastErrorBeer"));
+          return;
+        }
 
-        const addPromise = addBeer(payload);
-        const response = await toast.promise(addPromise, {
-          loading: t("toastLoadingBeer"),
-          success: t("toastSuccessBeer"),
-          error: t("toastErrorBeer"),
-        });
+        if (isEditMode) {
+          const payload = {
+            beerId: beer._id,
+            _id: beer._id,
+            beerName: values.beerName.trim(),
+            beerVariant: values.beerVariant.trim(),
+            beerRating: values.beerRating,
+            beerDescription: values.beerDescription,
+            beerPhoto: finalImage !== null ? finalImage : beer.beerPhoto || "",
+            beerDate: values.beerDate || beer.beerDate,
+          };
 
-        if (response.status === 201) {
-          resetForm();
-          resetAll();
-          if (onBeerAdded) onBeerAdded();
-          onClose();
+          const updatePromise = updateBeer(payload);
+          const response = await toast.promise(updatePromise, {
+            loading: t("toastLoadingBeerUpdate"),
+            success: t("toastSuccessBeerUpdate"),
+            error: t("toastErrorBeerUpdate"),
+          });
+
+          if (response.status === 200) {
+            resetForm();
+            resetAll();
+            if (onBeerUpdated) onBeerUpdated(response.data?.beer || payload);
+            onClose();
+          }
+        } else {
+          const payload = {
+            beerName: values.beerName.trim(),
+            beerVariant: values.beerVariant.trim(),
+            beerRating: values.beerRating,
+            beerDescription: values.beerDescription,
+            beerPhoto: finalImage || imageSrc || "",
+            beerOwner: apiData?.username,
+            beerVerticalStyle: "0",
+            beerHorizontalStyle: "0",
+            beerWidthStyle: "100",
+          };
+
+          const addPromise = addBeer(payload);
+          const response = await toast.promise(addPromise, {
+            loading: t("toastLoadingBeer"),
+            success: t("toastSuccessBeer"),
+            error: t("toastErrorBeer"),
+          });
+
+          if (response.status === 201) {
+            resetForm();
+            resetAll();
+            if (onBeerAdded) onBeerAdded();
+            onClose();
+          }
         }
       } catch (err) {
         console.error(err);
       }
     },
   });
+
+  const handleDeleteBeer = async () => {
+    if (!beer || !window.confirm(t("confirmDelete"))) {
+      return;
+    }
+
+    try {
+      const user = await getUsername();
+      const username = user?.username || apiData?.username;
+
+      const deletePromise = removeBeer({
+        beerId: beer._id,
+        _id: beer._id,
+        beerName: beer.beerName,
+        beerVariant: beer.beerVariant,
+        beerOwner: username,
+      });
+
+      await toast.promise(deletePromise, {
+        loading: t("toastLoadingBeerRemove"),
+        success: t("toastSuccessBeerRemove"),
+        error: t("toastErrorBeerRemove"),
+      });
+
+      if (onBeerDeleted) {
+        onBeerDeleted(beer._id);
+      }
+      onClose();
+    } catch (err) {
+      console.error(err);
+      toast.error(t("toastErrorBeerRemove"));
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -115,7 +234,7 @@ function BeerBottomSheet({ isOpen, onClose, onBeerAdded }) {
         </div>
 
         <div className={styles.sheetHeader}>
-          <h2>{t("addBeerTitle")}</h2>
+          <h2>{isEditMode ? t("editBeerTitle") : t("addBeerTitle")}</h2>
           <button
             type="button"
             className={styles.closeBtn}
@@ -148,7 +267,13 @@ function BeerBottomSheet({ isOpen, onClose, onBeerAdded }) {
               />
             </div>
 
-            <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
+            <div
+              className={
+                isEditMode
+                  ? styles.inputGroup
+                  : `${styles.inputGroup} ${styles.fullWidth}`
+              }
+            >
               <label htmlFor="beerRating">{t("beerRating")} (0-10) *</label>
               <input
                 id="beerRating"
@@ -160,6 +285,18 @@ function BeerBottomSheet({ isOpen, onClose, onBeerAdded }) {
                 {...formik.getFieldProps("beerRating")}
               />
             </div>
+
+            {isEditMode && (
+              <div className={styles.inputGroup}>
+                <label htmlFor="beerDate">{t("beerDateEdit")}</label>
+                <input
+                  id="beerDate"
+                  type="text"
+                  placeholder="DD.MM.YYYY"
+                  {...formik.getFieldProps("beerDate")}
+                />
+              </div>
+            )}
 
             <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
               <label htmlFor="beerDescription">{t("beerDesc")}</label>
@@ -174,19 +311,17 @@ function BeerBottomSheet({ isOpen, onClose, onBeerAdded }) {
           {/* Interactive Photo & Crop Section */}
           <div className={styles.photoSection}>
             <div className={styles.photoLabelRow}>
-              <span>📸 {t("takeOrSelectPhoto")}</span>
+              <span>
+                📸{" "}
+                {finalImage
+                  ? isEditMode
+                    ? t("currentPhoto")
+                    : t("takeOrSelectPhoto")
+                  : t("takeOrSelectPhoto")}
+              </span>
             </div>
 
-            {!imageSrc ? (
-              <label className={styles.uploadTrigger}>
-                <span>📷 {t("takeOrSelectPhoto")}</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                />
-              </label>
-            ) : isCropping ? (
+            {isCropping ? (
               <>
                 <p style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
                   🖐️ {t("cropInstruction")}
@@ -214,30 +349,38 @@ function BeerBottomSheet({ isOpen, onClose, onBeerAdded }) {
                       onChange={(e) => setZoom(Number(e.target.value))}
                     />
                   </div>
-                  <button
-                    type="button"
-                    className={styles.confirmCropBtn}
-                    onClick={handleConfirmCrop}
-                  >
-                    ✓ Zatwierdź kadr
-                  </button>
+                  <div className={styles.cropButtonsRow}>
+                    <button
+                      type="button"
+                      className={styles.cancelCropBtn}
+                      onClick={handleCancelCrop}
+                    >
+                      {t("cancel")}
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.confirmCropBtn}
+                      onClick={handleConfirmCrop}
+                    >
+                      ✓ {t("recropPhoto")}
+                    </button>
+                  </div>
                 </div>
               </>
-            ) : (
+            ) : finalImage ? (
               <div className={styles.croppedPreview}>
-                <img src={finalImage || imageSrc} alt="Beer Crop Preview" />
-                <div>
-                  <button
-                    type="button"
-                    className={styles.reCropBtn}
-                    onClick={() => setIsCropping(true)}
-                  >
-                    ✂️ Dopasuj kadr
-                  </button>
-                  <label
-                    className={styles.reCropBtn}
-                    style={{ marginLeft: 8, display: "inline-block" }}
-                  >
+                <img src={finalImage} alt="Beer Preview" />
+                <div className={styles.previewActions}>
+                  {imageSrc && (
+                    <button
+                      type="button"
+                      className={styles.reCropBtn}
+                      onClick={() => setIsCropping(true)}
+                    >
+                      ✂️ {t("recropPhoto")}
+                    </button>
+                  )}
+                  <label className={styles.reCropBtn}>
                     🔄 {t("changePhoto")}
                     <input
                       type="file"
@@ -246,27 +389,76 @@ function BeerBottomSheet({ isOpen, onClose, onBeerAdded }) {
                       style={{ display: "none" }}
                     />
                   </label>
+                  <button
+                    type="button"
+                    className={`${styles.reCropBtn} ${styles.dangerBtn}`}
+                    onClick={handleRemovePhoto}
+                  >
+                    🗑️ {t("removePhoto")}
+                  </button>
                 </div>
               </div>
+            ) : (
+              <label className={styles.uploadTrigger}>
+                <span>📷 {t("takeOrSelectPhoto")}</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </label>
             )}
           </div>
         </form>
 
         <div className={styles.sheetFooter}>
-          <button
-            type="button"
-            className={styles.cancelBtn}
-            onClick={onClose}
-          >
-            {t("cancel")}
-          </button>
-          <button
-            type="button"
-            className={styles.submitBtn}
-            onClick={() => formik.handleSubmit()}
-          >
-            🍺 {t("saveBeer")}
-          </button>
+          {isEditMode ? (
+            <div className={styles.editFooterLayout}>
+              <button
+                type="button"
+                className={styles.deleteSheetBtn}
+                onClick={handleDeleteBeer}
+                title={t("deleteBeer")}
+              >
+                <FontAwesomeIcon icon={faTrashCan} />
+                <span>{t("deleteBeer")}</span>
+              </button>
+
+              <div className={styles.actionGroup}>
+                <button
+                  type="button"
+                  className={styles.cancelBtn}
+                  onClick={onClose}
+                >
+                  {t("cancel")}
+                </button>
+                <button
+                  type="button"
+                  className={styles.submitBtn}
+                  onClick={() => formik.handleSubmit()}
+                >
+                  💾 {t("saveChanges")}
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className={styles.addFooterLayout}>
+              <button
+                type="button"
+                className={styles.cancelBtn}
+                onClick={onClose}
+              >
+                {t("cancel")}
+              </button>
+              <button
+                type="button"
+                className={styles.submitBtn}
+                onClick={() => formik.handleSubmit()}
+              >
+                🍺 {t("saveBeer")}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
