@@ -392,9 +392,6 @@ function Home() {
                 beerRating={beer.beerRating}
                 beerPhoto={beer.beerPhoto}
                 beerDate={beer.beerDate}
-                beerVerticalStyle={beer.beerVerticalStyle}
-                beerHorizontalStyle={beer.beerHorizontalStyle}
-                beerWidthStyle={beer.beerWidthStyle}
                 onEdit={() => handleOpenEdit(beer)}
                 style={{ animationDelay: `${Math.min((index % 12) * 35, 350)}ms` }}
               />

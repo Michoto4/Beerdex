@@ -12,9 +12,6 @@ function BeerCard({
   beerRating,
   beerPhoto,
   beerDate,
-  beerVerticalStyle,
-  beerHorizontalStyle,
-  beerWidthStyle,
   onEdit,
   style,
 }) {
@@ -22,38 +19,18 @@ function BeerCard({
   const [isExpanded, setIsExpanded] = useState(false);
   const [imgError, setImgError] = useState(false);
 
-  // Check if legacy style offsets are active
-  const hasLegacyOffset =
-    beerVerticalStyle !== undefined &&
-    beerVerticalStyle !== "" &&
-    beerVerticalStyle !== "0";
-
   const isLongDescription = (beerDescription || "").length > 90;
 
   return (
     <div className={styles.beerCard} style={style}>
       <div className={styles.imageWrapper}>
         {beerPhoto && !imgError ? (
-          hasLegacyOffset ? (
-            <img
-              className={styles.beerImgLegacy}
-              style={{
-                bottom: `${beerVerticalStyle}%`,
-                left: `${beerHorizontalStyle}%`,
-                width: `${beerWidthStyle || 100}%`,
-              }}
-              src={beerPhoto}
-              alt={beerName}
-              onError={() => setImgError(true)}
-            />
-          ) : (
-            <img
-              className={styles.beerImgModern}
-              src={beerPhoto}
-              alt={beerName}
-              onError={() => setImgError(true)}
-            />
-          )
+          <img
+            className={styles.beerImg}
+            src={beerPhoto}
+            alt={beerName}
+            onError={() => setImgError(true)}
+          />
         ) : (
           <span className={styles.placeholderIcon}>🍺</span>
         )}
